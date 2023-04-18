@@ -1,0 +1,5 @@
+# Server
+server/__pycache__
+server/fixtures
+server/instance
+server/migrations
