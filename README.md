@@ -1,10 +1,10 @@
 # React / Flask Keylogger App
 
-This application will allow a user to create XSS payloads for recording keystrokes, as well as view logs of recorded keystrokes sent from vulnerable web applications with the payload running.
+This Proof-of-Concept application will allow a user to create XSS payloads for recording keystrokes, as well as view logs of recorded keystrokes sent from vulnerable web applications with the payload running.
 
 ## Flask Server Setup
 
-In `server`, simply run `bash run.sh` to set up and run the server.
+In `server`, run `bash run.sh` to set up and run the server.
 
 ## React Client Setup
 
@@ -20,7 +20,7 @@ Here, there are currently two pages, `Logs` and `Payloads`.  You can create Cros
 
 View recorded keystrokes sent from a XSS payload to the server.  Each log will display IP address, time of log, User Agent, and keystrokes.  You can filter by IP address or a search term.
 
-You can also click a row to view all of the keystrokes in a modal.  There's an option to process keystrokes, where `ENTER` characters will be converted to newlines, and for each `BACKSPACE`, a character will be deleted.
+You can also click a row to view all of the keystrokes in a modal.  There's an option to process keystrokes, where `ENTER` characters will be converted to newlines, and for each `BACKSPACE`, a character will be deleted.  Below you can see an example of before processing keystrokes (left) and after (right).
 
 <p float="left">
     <img src="./images/unprocessed_keystrokes.png" alt= “” height="300px">
