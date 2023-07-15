@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { MdSave } from 'react-icons/md';
 
-import { EditIcon } from "@chakra-ui/icons";
 import {
+  Icon,
   IconButton,
   Popover,
   PopoverBody,
@@ -30,7 +31,7 @@ const CopyPayload = ({ updatePayload }) => {
         <Tooltip label="Save Payload">
           <IconButton
             colorScheme="blue"
-            icon={<EditIcon />}
+            icon={<Icon as={MdSave} />}
             marginLeft="15px"
             onClick={() => {
               updatePayload();

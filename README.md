@@ -1,4 +1,4 @@
-# React / Flask Keylogger App
+# React and Flask Keylogger App
 
 This Proof-of-Concept application will allow a user to create XSS payloads for recording keystrokes, as well as view logs of recorded keystrokes sent from vulnerable web applications with the payload running.
 

