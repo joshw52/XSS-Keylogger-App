@@ -4,9 +4,12 @@ import moment from "moment-timezone";
 import { uniq } from "lodash";
 import axios from "axios";
 
+import { MdCookie, MdStorage } from 'react-icons/md';
+
 import {
   Card,
   CardBody,
+  Icon,
   Input,
   Select,
   Stack,
@@ -114,11 +117,13 @@ const Logs = () => {
               <Th>Date</Th>
               <Th>User Agent</Th>
               <Th>Keystrokes</Th>
+              <Th>Cookies</Th>
+              <Th>Storage</Th>
             </Tr>
           </Thead>
           <Tbody>
             {filteredLogs.map(
-              ({ created_at, id, ip, keystrokes, user_agent }) => (
+              ({ cookies, created_at, id, ip, keystrokes, local_storage, session_storage, user_agent }) => (
                 <Tr
                   key={`log/${created_at}/${ip}`}
                   onClick={() => setShowDetails(id)}
@@ -152,6 +157,8 @@ const Logs = () => {
                       {keystrokes}
                     </Text>
                   </Td>
+                  <Td>{cookies && <Icon as={MdCookie} />}</Td>
+                  <Td>{(local_storage || session_storage) && <Icon as={MdStorage} />}</Td>
                 </Tr>
               )
             )}

