@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from 'react';
 
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
@@ -10,34 +10,34 @@ import {
   MenuList,
   Stack,
   Heading,
-} from "@chakra-ui/react";
-import capitalize from "lodash/capitalize";
+} from '@chakra-ui/react';
+import capitalize from 'lodash/capitalize';
 
-import { AuthContext } from "../authContext";
+import { AuthContext } from '../authContext';
 
-import Logs from "./Logs";
-import Payload from "./Payloads";
+import Logs from './Logs';
+import Payload from './Payloads';
 
-const PAGE_OPTIONS = ["logs", "payloads", "logout"];
+const PAGE_OPTIONS = ['logs', 'payloads', 'logout'];
 
 const Dashboard = () => {
   const { onLogout } = useContext(AuthContext);
   const [selectedPage, setSelectedPage] = useState(
-    localStorage.getItem("selectedPage") || "logs"
+    localStorage.getItem('selectedPage') || 'logs',
   );
 
   const onChangePage = ({ target: { value } }) => {
-    if (value !== "logout") {
-      localStorage.setItem("selectedPage", value);
+    if (value !== 'logout') {
+      localStorage.setItem('selectedPage', value);
     }
     setSelectedPage(value);
   };
 
   const renderPage = () => {
     switch (selectedPage) {
-      case "payloads":
+      case 'payloads':
         return <Payload />;
-      case "logout":
+      case 'logout':
         onLogout();
         return null;
       default:
@@ -63,7 +63,7 @@ const Dashboard = () => {
             {capitalize(selectedPage)}
           </MenuButton>
           <MenuList>
-            {PAGE_OPTIONS.map((option) => (
+            {PAGE_OPTIONS.map(option => (
               <MenuItem onClick={onChangePage} value={option}>
                 {capitalize(option)}
               </MenuItem>

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
 
-import { DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon } from '@chakra-ui/icons';
 import {
   Button,
   ButtonGroup,
@@ -13,12 +13,12 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Tooltip,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 const deletePayload = (payloadId, setCurrentPayload, fetchPayloads) =>
   axios
     .delete(`/api/payloads/${payloadId}`, { withCredentials: true })
-    .then((response) => {
+    .then(response => {
       setCurrentPayload(null);
       fetchPayloads();
       return response.data;
@@ -65,7 +65,7 @@ const DeletePayload = ({
                 deletePayload(
                   currentPayload?.id,
                   setCurrentPayload,
-                  fetchPayloads
+                  fetchPayloads,
                 )
               }
             >

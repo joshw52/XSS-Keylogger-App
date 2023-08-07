@@ -1,6 +1,6 @@
-import React from "react";
-import axios from "axios";
-import { useForm } from "react-hook-form";
+import React from 'react';
+import axios from 'axios';
+import { useForm } from 'react-hook-form';
 
 import {
   Button,
@@ -13,18 +13,18 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 const createNewPayload = (payloadData, fetchPayloads, setCurrentPayload) =>
   axios
     .post(`/api/payloads`, payloadData, { withCredentials: true })
-    .then((response) => {
+    .then(response => {
       fetchPayloads();
-      setCurrentPayload(response.data["payloadAddData"]);
+      setCurrentPayload(response.data['payloadAddData']);
     });
 
 const payloadNameValidation = {
-  required: "Name is required for new payload",
+  required: 'Name is required for new payload',
 };
 
 const NewPayloadModal = ({
@@ -38,21 +38,21 @@ const NewPayloadModal = ({
     handleSubmit,
     register,
     reset,
-  } = useForm({ mode: "onSubmit" });
+  } = useForm({ mode: 'onSubmit' });
 
-  const resetNewPayloadForm = () => reset({ name: "" });
+  const resetNewPayloadForm = () => reset({ name: '' });
 
   const cancelNewPayloadCreate = () => {
     setNewPayloadOpen(false);
     resetNewPayloadForm();
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = data => {
     setNewPayloadOpen(false);
     createNewPayload(
-      { name: data.payloadName, payload: "" },
+      { name: data.payloadName, payload: '' },
       fetchPayloads,
-      setCurrentPayload
+      setCurrentPayload,
     );
     resetNewPayloadForm();
   };
@@ -72,7 +72,7 @@ const NewPayloadModal = ({
           <ModalBody overflowY="scroll">
             <FormControl isInvalid={!!errors.payloadName}>
               <Input
-                {...register("payloadName", payloadNameValidation)}
+                {...register('payloadName', payloadNameValidation)}
                 placeholder="New Payload Name"
                 type="text"
               />

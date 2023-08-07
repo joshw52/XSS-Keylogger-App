@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from "react";
-import { useForm } from "react-hook-form";
-import axios from "axios";
+import React, { useCallback, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
@@ -14,32 +14,32 @@ import {
   InputRightElement,
   Link,
   Stack,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 const onRegister = ({ password, username }, setRegisterResponse) =>
   axios
-    .post("/api/register", {
+    .post('/api/register', {
       password,
       username,
     })
-    .then((res) => {
+    .then(res => {
       setRegisterResponse(res.data);
     });
 
 const passwordValidation = {
   minLength: {
-    message: "Passwords should be at least 8 characters long",
+    message: 'Passwords should be at least 8 characters long',
     value: 8,
   },
-  required: "Password is required",
+  required: 'Password is required',
 };
 
 const usernameValidation = {
   minLength: {
-    message: "Usernames should be at least 4 characters long",
+    message: 'Usernames should be at least 4 characters long',
     value: 4,
   },
-  required: "Username is required",
+  required: 'Username is required',
 };
 
 const Register = () => {
@@ -47,15 +47,15 @@ const Register = () => {
     formState: { errors, isSubmitting },
     handleSubmit,
     register,
-  } = useForm({ mode: "onSubmit" });
-  const onSubmit = (data) => onRegister(data, setRegisterResponse);
+  } = useForm({ mode: 'onSubmit' });
+  const onSubmit = data => onRegister(data, setRegisterResponse);
 
   const [registerResponse, setRegisterResponse] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
 
   const toggleShowPassword = useCallback(
     () => setShowPassword(!showPassword),
-    [setShowPassword, showPassword]
+    [setShowPassword, showPassword],
   );
 
   return (
@@ -76,7 +76,7 @@ const Register = () => {
             <Stack spacing="4">
               <FormControl isInvalid={!!errors.username}>
                 <Input
-                  {...register("username", usernameValidation)}
+                  {...register('username', usernameValidation)}
                   placeholder="Username"
                   type="text"
                 />
@@ -85,9 +85,9 @@ const Register = () => {
               <FormControl isInvalid={!!errors.password}>
                 <InputGroup>
                   <Input
-                    {...register("password", passwordValidation)}
+                    {...register('password', passwordValidation)}
                     placeholder="Password"
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? 'text' : 'password'}
                   />
                   <InputRightElement onClick={toggleShowPassword}>
                     {showPassword ? <ViewOffIcon /> : <ViewIcon />}
@@ -103,7 +103,7 @@ const Register = () => {
         </Box>
       </Stack>
       {registerResponse?.registerMsg && (
-        <Box color={registerResponse?.registerError ? "red" : "green"}>
+        <Box color={registerResponse?.registerError ? 'red' : 'green'}>
           {registerResponse?.registerMsg}
         </Box>
       )}

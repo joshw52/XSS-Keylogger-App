@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import axios from "axios";
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import axios from 'axios';
 
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon } from '@chakra-ui/icons';
 import {
   Box,
   FormControl,
@@ -11,19 +11,19 @@ import {
   Select,
   Stack,
   Tooltip,
-} from "@chakra-ui/react";
-import Editor from "@monaco-editor/react";
+} from '@chakra-ui/react';
+import Editor from '@monaco-editor/react';
 
-import CopyPayload from "./CopyPayload";
-import DeletePayload from "./DeletePayload";
-import NewPayloadModal from "./NewPayloadModal";
-import PayloadInfo from "./PayloadInfo";
-import SavePayload from "./SavePayload";
+import CopyPayload from './CopyPayload';
+import DeletePayload from './DeletePayload';
+import NewPayloadModal from './NewPayloadModal';
+import PayloadInfo from './PayloadInfo';
+import SavePayload from './SavePayload';
 
-const getPayloads = (setPayloads) =>
+const getPayloads = setPayloads =>
   axios
-    .get("/api/payloads", { withCredentials: true })
-    .then((response) => setPayloads(response.data.payloads));
+    .get('/api/payloads', { withCredentials: true })
+    .then(response => setPayloads(response.data.payloads));
 
 const savePayload = (payloadId, payloadData, fetchPayloads) =>
   axios
@@ -34,7 +34,7 @@ const Payload = () => {
   const payloadDrawerRef = useRef(null);
   const payloadEditorRef = useRef(null);
 
-  const handleEditorDidMount = (editor) => {
+  const handleEditorDidMount = editor => {
     payloadEditorRef.current = editor;
   };
 
@@ -58,7 +58,7 @@ const Payload = () => {
 
   const copyPayloadToClipboard = useCallback(
     () => navigator.clipboard.writeText(payloadEditorRef.current.getValue()),
-    [payloadEditorRef]
+    [payloadEditorRef],
   );
 
   return (
@@ -89,9 +89,9 @@ const Payload = () => {
             <FormLabel>Select a Payload to Edit</FormLabel>
             <Select
               bg="gray.100"
-              onChange={(e) =>
+              onChange={e =>
                 setCurrentPayload(
-                  payloads.find((p) => Number(p.id) === Number(e.target.value))
+                  payloads.find(p => Number(p.id) === Number(e.target.value)),
                 )
               }
               placeholder="- Select a Payload -"
@@ -110,7 +110,7 @@ const Payload = () => {
               <Input
                 bg="gray.100"
                 id="payloadName"
-                onChange={(e) =>
+                onChange={e =>
                   setCurrentPayload({
                     ...currentPayload,
                     name: e.target.value,

@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-import { AuthContext } from "../authContext";
+import { AuthContext } from '../authContext';
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const onAuthCheck = () =>
     axios
-      .get("/api/auth", { withCredentials: true })
-      .then((res) => setLoggedIn(res.data.isAuthenticated));
+      .get('/api/auth', { withCredentials: true })
+      .then(res => setLoggedIn(res.data.isAuthenticated));
 
   useEffect(() => {
     onAuthCheck();
@@ -17,18 +17,18 @@ const AuthProvider = ({ children }) => {
 
   const onLogin = ({ password, username }, setLoginResponse) =>
     axios
-      .post("/api/login", {
+      .post('/api/login', {
         password,
         username,
       })
-      .then((res) => {
+      .then(res => {
         setLoggedIn(!res.data.loginError);
         setLoginResponse(res.data);
       });
 
   const onLogout = () =>
     axios
-      .post("/api/logout", { withCredentials: true })
+      .post('/api/logout', { withCredentials: true })
       .then(() => setLoggedIn(false));
 
   const loggedInContextValues = {

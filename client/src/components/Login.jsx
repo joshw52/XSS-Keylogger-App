@@ -1,7 +1,7 @@
-import React, { useCallback, useContext, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useCallback, useContext, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
@@ -13,16 +13,16 @@ import {
   InputRightElement,
   Link,
   Stack,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import { AuthContext } from "../authContext";
+import { AuthContext } from '../authContext';
 
 const passwordValidation = {
-  required: "Password is required",
+  required: 'Password is required',
 };
 
 const usernameValidation = {
-  required: "Username is required",
+  required: 'Username is required',
 };
 
 const Login = () => {
@@ -31,15 +31,15 @@ const Login = () => {
     formState: { errors, isSubmitting },
     handleSubmit,
     register,
-  } = useForm({ mode: "onSubmit" });
-  const onSubmit = (data) => onLogin(data, setLoginResponse);
+  } = useForm({ mode: 'onSubmit' });
+  const onSubmit = data => onLogin(data, setLoginResponse);
 
   const [loginResponse, setLoginResponse] = useState({});
   const [showPassword, setShowPassword] = useState(false);
 
   const toggleShowPassword = useCallback(
     () => setShowPassword(!showPassword),
-    [setShowPassword, showPassword]
+    [setShowPassword, showPassword],
   );
 
   return (
@@ -60,7 +60,7 @@ const Login = () => {
             <Stack spacing="4">
               <FormControl isInvalid={!!errors.username}>
                 <Input
-                  {...register("username", usernameValidation)}
+                  {...register('username', usernameValidation)}
                   placeholder="Username"
                   type="text"
                 />
@@ -69,9 +69,9 @@ const Login = () => {
               <FormControl isInvalid={!!errors.password}>
                 <InputGroup>
                   <Input
-                    {...register("password", passwordValidation)}
+                    {...register('password', passwordValidation)}
                     placeholder="Password"
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? 'text' : 'password'}
                   />
                   <InputRightElement onClick={toggleShowPassword}>
                     {showPassword ? <ViewOffIcon /> : <ViewIcon />}
@@ -87,7 +87,7 @@ const Login = () => {
         </Box>
       </Stack>
       {loginResponse?.loginMsg && (
-        <Box color={loginResponse?.loginError ? "red" : "green"}>
+        <Box color={loginResponse?.loginError ? 'red' : 'green'}>
           {loginResponse?.loginMsg}
         </Box>
       )}

@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from 'react';
 
-import moment from "moment-timezone";
-import { uniq } from "lodash";
-import axios from "axios";
+import moment from 'moment-timezone';
+import { uniq } from 'lodash';
+import axios from 'axios';
 
 import { MdCookie, MdStorage } from 'react-icons/md';
 
@@ -21,33 +21,32 @@ import {
   Th,
   Thead,
   Tr,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import LogModal, { parseKeystrokes } from "./LogModal";
+import LogModal, { parseKeystrokes } from './LogModal';
 
-const getLogs = (setLogs) =>
+const getLogs = setLogs =>
   axios
     .get(`/api/logs`, { withCredentials: true })
-    .then((response) => setLogs(response.data.logs));
+    .then(response => setLogs(response.data.logs));
 
-const getIPs = (logs) => uniq(logs?.map(({ ip }) => ip));
+const getIPs = logs => uniq(logs?.map(({ ip }) => ip));
 
-const filterLogs = (logs, ip) =>
-  logs.filter((log) => (ip ? log.ip === ip : log));
+const filterLogs = (logs, ip) => logs.filter(log => (ip ? log.ip === ip : log));
 
-const processLogs = (logs) =>
-  logs.map((log) => ({
+const processLogs = logs =>
+  logs.map(log => ({
     ...log,
     keystrokes: parseKeystrokes(log.keystrokes),
   }));
 
 const searchKeystrokes = (logs, searchTerm) =>
   logs.filter(
-    (log) =>
+    log =>
       JSON.parse(atob(log.keystrokes))
-        .join("")
+        .join('')
         .toLowerCase()
-        .indexOf(searchTerm.toLowerCase()) > -1
+        .indexOf(searchTerm.toLowerCase()) > -1,
   );
 
 const Logs = () => {
@@ -61,8 +60,8 @@ const Logs = () => {
   }, []);
 
   const selectedLog = useMemo(
-    () => showDetails && logs?.find((log) => log.id === showDetails),
-    [logs, showDetails]
+    () => showDetails && logs?.find(log => log.id === showDetails),
+    [logs, showDetails],
   );
 
   const filteredLogs = useMemo(() => {
@@ -85,15 +84,15 @@ const Logs = () => {
       <Card
         bg="gray.300"
         borderRadius="sm"
-        direction={{ base: "column", sm: "row" }}
+        direction={{ base: 'column', sm: 'row' }}
       >
         <CardBody>
           <Select
             bg="gray.100"
-            onChange={(e) => setSelectedIp(e.target.value)}
+            onChange={e => setSelectedIp(e.target.value)}
             placeholder="Filter by IP address"
           >
-            {getIPs(logs).map((ip) => (
+            {getIPs(logs).map(ip => (
               <option key={`ipOption/${ip}`} value={ip}>
                 {ip}
               </option>
@@ -103,7 +102,7 @@ const Logs = () => {
         <CardBody>
           <Input
             bg="gray.100"
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
             placeholder="Search Logs"
             value={searchTerm}
           />
@@ -123,23 +122,32 @@ const Logs = () => {
           </Thead>
           <Tbody>
             {filteredLogs.map(
-              ({ cookies, created_at, id, ip, keystrokes, local_storage, session_storage, user_agent }) => (
+              ({
+                cookies,
+                created_at,
+                id,
+                ip,
+                keystrokes,
+                local_storage,
+                session_storage,
+                user_agent,
+              }) => (
                 <Tr
                   key={`log/${created_at}/${ip}`}
                   onClick={() => setShowDetails(id)}
                   sx={{
-                    cursor: "pointer",
+                    cursor: 'pointer',
                   }}
                 >
                   <Td>{ip}</Td>
-                  <Td>{moment(created_at).format("MMM DD, YYYY hh:mm a")}</Td>
+                  <Td>{moment(created_at).format('MMM DD, YYYY hh:mm a')}</Td>
                   <Td>
                     <Text
                       style={{
-                        height: "75px",
-                        overflowX: "scroll",
-                        whiteSpace: "pre-line",
-                        width: "250px",
+                        height: '75px',
+                        overflowX: 'scroll',
+                        whiteSpace: 'pre-line',
+                        width: '250px',
                       }}
                     >
                       {user_agent}
@@ -148,19 +156,23 @@ const Logs = () => {
                   <Td>
                     <Text
                       style={{
-                        height: "75px",
-                        overflowX: "scroll",
-                        whiteSpace: "pre-line",
-                        width: "400px",
+                        height: '75px',
+                        overflowX: 'scroll',
+                        whiteSpace: 'pre-line',
+                        width: '400px',
                       }}
                     >
                       {keystrokes}
                     </Text>
                   </Td>
                   <Td>{cookies && <Icon as={MdCookie} />}</Td>
-                  <Td>{(local_storage || session_storage) && <Icon as={MdStorage} />}</Td>
+                  <Td>
+                    {(local_storage || session_storage) && (
+                      <Icon as={MdStorage} />
+                    )}
+                  </Td>
                 </Tr>
-              )
+              ),
             )}
           </Tbody>
         </Table>
