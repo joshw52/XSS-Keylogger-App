@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint ./ --ignore-path .gitignore",
     "lint:fix": "npm run lint -- --fix",
-    "format": "prettier --write \"{,!(node_modules)/**/}*.js\""
+    "format": "prettier --write \"{,!(node_modules)/**/}*.jsx\""
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.18",

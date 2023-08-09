@@ -165,9 +165,7 @@ const Logs = () => {
                       {keystrokes}
                     </Text>
                   </Td>
-                  <Td>{cookies && (
-                    <Icon as={MdCookie} />
-                  )}</Td>
+                  <Td>{cookies && <Icon as={MdCookie} />}</Td>
                   <Td>
                     {(local_storage || session_storage) && (
                       <Icon as={MdStorage} />
