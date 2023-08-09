@@ -147,7 +147,7 @@ const Logs = () => {
                         height: '75px',
                         overflowX: 'scroll',
                         whiteSpace: 'pre-line',
-                        width: '250px',
+                        width: '200px',
                       }}
                     >
                       {user_agent}
@@ -159,13 +159,15 @@ const Logs = () => {
                         height: '75px',
                         overflowX: 'scroll',
                         whiteSpace: 'pre-line',
-                        width: '400px',
+                        width: '300px',
                       }}
                     >
                       {keystrokes}
                     </Text>
                   </Td>
-                  <Td>{cookies && <Icon as={MdCookie} />}</Td>
+                  <Td>{cookies && (
+                    <Icon as={MdCookie} />
+                  )}</Td>
                   <Td>
                     {(local_storage || session_storage) && (
                       <Icon as={MdStorage} />

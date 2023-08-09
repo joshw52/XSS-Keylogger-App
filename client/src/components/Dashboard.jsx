@@ -17,8 +17,9 @@ import { AuthContext } from '../authContext';
 
 import Logs from './Logs';
 import Payload from './Payloads';
+import Settings from './Settings';
 
-const PAGE_OPTIONS = ['logs', 'payloads', 'logout'];
+const PAGE_OPTIONS = ['logs', 'payloads', 'settings', 'logout'];
 
 const Dashboard = () => {
   const { onLogout } = useContext(AuthContext);
@@ -37,6 +38,8 @@ const Dashboard = () => {
     switch (selectedPage) {
       case 'payloads':
         return <Payload />;
+      case 'settings':
+        return <Settings />;
       case 'logout':
         onLogout();
         return null;

