@@ -233,9 +233,7 @@ def settings_put():
                 "settingsError": False,
                 "settingsMsg": "Settings updated",
             }
-    except SQLAlchemyError as e:
-        error = str(e.__dict__['orig'])
-        print("\n\n ERROR::", error, "\n\n")
+    except:
         db.session.rollback()
         response = {
             "settingsError": True,
