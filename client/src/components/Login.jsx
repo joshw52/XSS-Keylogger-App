@@ -37,33 +37,16 @@ const Login = () => {
   const [loginResponse, setLoginResponse] = useState({});
   const [showPassword, setShowPassword] = useState(false);
 
-  const toggleShowPassword = useCallback(
-    () => setShowPassword(!showPassword),
-    [setShowPassword, showPassword],
-  );
+  const toggleShowPassword = useCallback(() => setShowPassword(!showPassword), [setShowPassword, showPassword]);
 
   return (
-    <Flex
-      alignItems="center"
-      flexDirection="column"
-      height="400px"
-      justifyContent="center"
-    >
-      <Stack
-        alignItems="center"
-        flexDirection="column"
-        justifyContent="center"
-        width="400px"
-      >
+    <Flex alignItems="center" flexDirection="column" height="400px" justifyContent="center">
+      <Stack alignItems="center" flexDirection="column" justifyContent="center" width="400px">
         <Box>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing="4">
               <FormControl isInvalid={!!errors.username}>
-                <Input
-                  {...register('username', usernameValidation)}
-                  placeholder="Username"
-                  type="text"
-                />
+                <Input {...register('username', usernameValidation)} placeholder="Username" type="text" />
                 <FormErrorMessage>{errors?.username?.message}</FormErrorMessage>
               </FormControl>
               <FormControl isInvalid={!!errors.password}>
@@ -87,9 +70,7 @@ const Login = () => {
         </Box>
       </Stack>
       {loginResponse?.loginMsg && (
-        <Box color={loginResponse?.loginError ? 'red' : 'green'}>
-          {loginResponse?.loginMsg}
-        </Box>
+        <Box color={loginResponse?.loginError ? 'red' : 'green'}>{loginResponse?.loginMsg}</Box>
       )}
       <Box>
         No Account? <Link href="/register">Register</Link>

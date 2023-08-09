@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 
 import { CopyIcon } from '@chakra-ui/icons';
-import {
-  IconButton,
-  Popover,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  Tooltip,
-} from '@chakra-ui/react';
+import { IconButton, Popover, PopoverBody, PopoverContent, PopoverTrigger, Tooltip } from '@chakra-ui/react';
 
 const CopyPayload = ({ copyPayloadToClipboard }) => {
   const [open, setOpen] = useState(false);
@@ -20,12 +13,7 @@ const CopyPayload = ({ copyPayloadToClipboard }) => {
   };
 
   return (
-    <Popover
-      closeOnBlur={true}
-      isOpen={open}
-      onClose={() => setOpen(false)}
-      placement="bottom"
-    >
+    <Popover closeOnBlur={true} isOpen={open} onClose={() => setOpen(false)} placement="bottom">
       <PopoverTrigger>
         <Tooltip label="Copy to Clipboard">
           <IconButton

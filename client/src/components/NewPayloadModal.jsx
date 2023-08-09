@@ -16,23 +16,16 @@ import {
 } from '@chakra-ui/react';
 
 const createNewPayload = (payloadData, fetchPayloads, setCurrentPayload) =>
-  axios
-    .post(`/api/payloads`, payloadData, { withCredentials: true })
-    .then(response => {
-      fetchPayloads();
-      setCurrentPayload(response.data['payloadAddData']);
-    });
+  axios.post(`/api/payloads`, payloadData, { withCredentials: true }).then(response => {
+    fetchPayloads();
+    setCurrentPayload(response.data['payloadAddData']);
+  });
 
 const payloadNameValidation = {
   required: 'Name is required for new payload',
 };
 
-const NewPayloadModal = ({
-  fetchPayloads,
-  newPayloadOpen,
-  setCurrentPayload,
-  setNewPayloadOpen,
-}) => {
+const NewPayloadModal = ({ fetchPayloads, newPayloadOpen, setCurrentPayload, setNewPayloadOpen }) => {
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
@@ -49,11 +42,7 @@ const NewPayloadModal = ({
 
   const onSubmit = data => {
     setNewPayloadOpen(false);
-    createNewPayload(
-      { name: data.payloadName, payload: '' },
-      fetchPayloads,
-      setCurrentPayload,
-    );
+    createNewPayload({ name: data.payloadName, payload: '' }, fetchPayloads, setCurrentPayload);
     resetNewPayloadForm();
   };
 
@@ -71,14 +60,8 @@ const NewPayloadModal = ({
           <ModalHeader>Create New Payload</ModalHeader>
           <ModalBody overflowY="scroll">
             <FormControl isInvalid={!!errors.payloadName}>
-              <Input
-                {...register('payloadName', payloadNameValidation)}
-                placeholder="New Payload Name"
-                type="text"
-              />
-              <FormErrorMessage>
-                {errors?.payloadName?.message}
-              </FormErrorMessage>
+              <Input {...register('payloadName', payloadNameValidation)} placeholder="New Payload Name" type="text" />
+              <FormErrorMessage>{errors?.payloadName?.message}</FormErrorMessage>
             </FormControl>
           </ModalBody>
           <ModalFooter>

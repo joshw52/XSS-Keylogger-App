@@ -1,16 +1,7 @@
 import React, { useContext, useState } from 'react';
 
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import {
-  Box,
-  Button,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Stack,
-  Heading,
-} from '@chakra-ui/react';
+import { Box, Button, Menu, MenuButton, MenuItem, MenuList, Stack, Heading } from '@chakra-ui/react';
 import capitalize from 'lodash/capitalize';
 
 import { AuthContext } from '../authContext';
@@ -23,9 +14,7 @@ const PAGE_OPTIONS = ['logs', 'payloads', 'settings', 'logout'];
 
 const Dashboard = () => {
   const { onLogout } = useContext(AuthContext);
-  const [selectedPage, setSelectedPage] = useState(
-    localStorage.getItem('selectedPage') || 'logs',
-  );
+  const [selectedPage, setSelectedPage] = useState(localStorage.getItem('selectedPage') || 'logs');
 
   const onChangePage = ({ target: { value } }) => {
     if (value !== 'logout') {
@@ -50,19 +39,10 @@ const Dashboard = () => {
 
   return (
     <Stack>
-      <Box
-        display="flex"
-        flexDirection="row"
-        justifyContent="space-between"
-        padding="20px"
-      >
+      <Box display="flex" flexDirection="row" justifyContent="space-between" padding="20px">
         <Heading>Keylogging App</Heading>
         <Menu>
-          <MenuButton
-            as={Button}
-            key={`page-${selectedPage}`}
-            rightIcon={<ChevronDownIcon />}
-          >
+          <MenuButton as={Button} key={`page-${selectedPage}`} rightIcon={<ChevronDownIcon />}>
             {capitalize(selectedPage)}
           </MenuButton>
           <MenuList>

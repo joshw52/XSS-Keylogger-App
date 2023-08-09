@@ -38,9 +38,7 @@ export const parseKeystrokes = (keystrokes, processKeys = false) => {
       .filter(key => key.length < 2 || key === ENTER || key === BACKSPACE)
       .map(key => (key === ENTER ? '\n' : key));
     const deleted = [];
-    processed.forEach(key =>
-      key !== BACKSPACE ? deleted.push(key) : deleted.pop(),
-    );
+    processed.forEach(key => (key !== BACKSPACE ? deleted.push(key) : deleted.pop()));
     return deleted.join('');
   }
   return decodedKeystrokes.map(key =>
@@ -57,31 +55,19 @@ export const parseKeystrokes = (keystrokes, processKeys = false) => {
 const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
   const [processKeys, setProcessKeys] = useState(false);
 
-  const toggleProcessKeys = useCallback(
-    () => setProcessKeys(!processKeys),
-    [processKeys, setProcessKeys],
-  );
+  const toggleProcessKeys = useCallback(() => setProcessKeys(!processKeys), [processKeys, setProcessKeys]);
 
   const processedKeys = useMemo(
-    () =>
-      selectedLog?.keystrokes &&
-      parseKeystrokes(selectedLog?.keystrokes, processKeys),
+    () => selectedLog?.keystrokes && parseKeystrokes(selectedLog?.keystrokes, processKeys),
     [selectedLog, processKeys],
   );
 
   return (
-    <Modal
-      blockScrollOnMount={false}
-      isCentered
-      isOpen={showDetails}
-      onClose={() => setShowDetails(null)}
-      size="lg"
-    >
+    <Modal blockScrollOnMount={false} isCentered isOpen={showDetails} onClose={() => setShowDetails(null)} size="lg">
       <ModalOverlay />
       <ModalContent height="500px">
         <ModalHeader>
-          {selectedLog.ip} -{' '}
-          {moment(selectedLog.created_at).format('MMM DD, YYYY hh:mm a')}
+          {selectedLog.ip} - {moment(selectedLog.created_at).format('MMM DD, YYYY hh:mm a')}
         </ModalHeader>
         <ModalBody overflowY="scroll">
           <Tabs variant="soft-rounded" colorScheme="green">
@@ -106,9 +92,7 @@ const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
             <TabPanels>
               <TabPanel>
                 <FormControl mb="5">
-                  <Checkbox onChange={toggleProcessKeys}>
-                    Process keystrokes
-                  </Checkbox>
+                  <Checkbox onChange={toggleProcessKeys}>Process keystrokes</Checkbox>
                   <Tooltip label={PROCESS_KEYS_INFO}>
                     <InfoIcon ml="2" />
                   </Tooltip>
@@ -160,11 +144,7 @@ const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
           </Tabs>
         </ModalBody>
         <ModalFooter>
-          <Button
-            colorScheme="blue"
-            mr={3}
-            onClick={() => setShowDetails(null)}
-          >
+          <Button colorScheme="blue" mr={3} onClick={() => setShowDetails(null)}>
             Close
           </Button>
         </ModalFooter>

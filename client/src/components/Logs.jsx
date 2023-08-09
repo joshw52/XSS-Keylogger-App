@@ -26,9 +26,7 @@ import {
 import LogModal, { parseKeystrokes } from './LogModal';
 
 const getLogs = setLogs =>
-  axios
-    .get(`/api/logs`, { withCredentials: true })
-    .then(response => setLogs(response.data.logs));
+  axios.get(`/api/logs`, { withCredentials: true }).then(response => setLogs(response.data.logs));
 
 const getIPs = logs => uniq(logs?.map(({ ip }) => ip));
 
@@ -41,13 +39,7 @@ const processLogs = logs =>
   }));
 
 const searchKeystrokes = (logs, searchTerm) =>
-  logs.filter(
-    log =>
-      JSON.parse(atob(log.keystrokes))
-        .join('')
-        .toLowerCase()
-        .indexOf(searchTerm.toLowerCase()) > -1,
-  );
+  logs.filter(log => JSON.parse(atob(log.keystrokes)).join('').toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
 
 const Logs = () => {
   const [logs, setLogs] = useState([]);
@@ -59,10 +51,7 @@ const Logs = () => {
     getLogs(setLogs);
   }, []);
 
-  const selectedLog = useMemo(
-    () => showDetails && logs?.find(log => log.id === showDetails),
-    [logs, showDetails],
-  );
+  const selectedLog = useMemo(() => showDetails && logs?.find(log => log.id === showDetails), [logs, showDetails]);
 
   const filteredLogs = useMemo(() => {
     let filtered = filterLogs(logs, selectedIp);
@@ -74,24 +63,10 @@ const Logs = () => {
 
   return (
     <Stack spacing="0">
-      {selectedLog && (
-        <LogModal
-          selectedLog={selectedLog}
-          setShowDetails={setShowDetails}
-          showDetails={showDetails}
-        />
-      )}
-      <Card
-        bg="gray.300"
-        borderRadius="sm"
-        direction={{ base: 'column', sm: 'row' }}
-      >
+      {selectedLog && <LogModal selectedLog={selectedLog} setShowDetails={setShowDetails} showDetails={showDetails} />}
+      <Card bg="gray.300" borderRadius="sm" direction={{ base: 'column', sm: 'row' }}>
         <CardBody>
-          <Select
-            bg="gray.100"
-            onChange={e => setSelectedIp(e.target.value)}
-            placeholder="Filter by IP address"
-          >
+          <Select bg="gray.100" onChange={e => setSelectedIp(e.target.value)} placeholder="Filter by IP address">
             {getIPs(logs).map(ip => (
               <option key={`ipOption/${ip}`} value={ip}>
                 {ip}
@@ -122,16 +97,7 @@ const Logs = () => {
           </Thead>
           <Tbody>
             {filteredLogs.map(
-              ({
-                cookies,
-                created_at,
-                id,
-                ip,
-                keystrokes,
-                local_storage,
-                session_storage,
-                user_agent,
-              }) => (
+              ({ cookies, created_at, id, ip, keystrokes, local_storage, session_storage, user_agent }) => (
                 <Tr
                   key={`log/${created_at}/${ip}`}
                   onClick={() => setShowDetails(id)}
@@ -166,11 +132,7 @@ const Logs = () => {
                     </Text>
                   </Td>
                   <Td>{cookies && <Icon as={MdCookie} />}</Td>
-                  <Td>
-                    {(local_storage || session_storage) && (
-                      <Icon as={MdStorage} />
-                    )}
-                  </Td>
+                  <Td>{(local_storage || session_storage) && <Icon as={MdStorage} />}</Td>
                 </Tr>
               ),
             )}

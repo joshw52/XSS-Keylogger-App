@@ -6,11 +6,7 @@ import { AuthContext } from '../authContext';
 const RefreshRedirect = ({ children }) => {
   const { loggedIn } = useContext(AuthContext);
   const location = useLocation();
-  return loggedIn ? (
-    <Navigate replace state={{ from: location }} to="/dashboard" />
-  ) : (
-    children
-  );
+  return loggedIn ? <Navigate replace state={{ from: location }} to="/dashboard" /> : children;
 };
 
 export default RefreshRedirect;

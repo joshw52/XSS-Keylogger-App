@@ -2,16 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
 import { AddIcon } from '@chakra-ui/icons';
-import {
-  Box,
-  FormControl,
-  FormLabel,
-  IconButton,
-  Input,
-  Select,
-  Stack,
-  Tooltip,
-} from '@chakra-ui/react';
+import { Box, FormControl, FormLabel, IconButton, Input, Select, Stack, Tooltip } from '@chakra-ui/react';
 import Editor from '@monaco-editor/react';
 
 import CopyPayload from './CopyPayload';
@@ -21,14 +12,10 @@ import PayloadInfo from './PayloadInfo';
 import SavePayload from './SavePayload';
 
 const getPayloads = setPayloads =>
-  axios
-    .get('/api/payloads', { withCredentials: true })
-    .then(response => setPayloads(response.data.payloads));
+  axios.get('/api/payloads', { withCredentials: true }).then(response => setPayloads(response.data.payloads));
 
 const savePayload = (payloadId, payloadData, fetchPayloads) =>
-  axios
-    .put(`/api/payloads/${payloadId}`, payloadData, { withCredentials: true })
-    .then(() => fetchPayloads());
+  axios.put(`/api/payloads/${payloadId}`, payloadData, { withCredentials: true }).then(() => fetchPayloads());
 
 const Payload = () => {
   const payloadDrawerRef = useRef(null);
@@ -89,11 +76,7 @@ const Payload = () => {
             <FormLabel>Select a Payload to Edit</FormLabel>
             <Select
               bg="gray.100"
-              onChange={e =>
-                setCurrentPayload(
-                  payloads.find(p => Number(p.id) === Number(e.target.value)),
-                )
-              }
+              onChange={e => setCurrentPayload(payloads.find(p => Number(p.id) === Number(e.target.value)))}
               placeholder="- Select a Payload -"
               value={currentPayload?.id}
             >
@@ -123,29 +106,15 @@ const Payload = () => {
             </FormControl>
           ) : (
             <Tooltip label="New Payload">
-              <IconButton
-                colorScheme="green"
-                icon={<AddIcon />}
-                onClick={() => setNewPayloadOpen(true)}
-              />
+              <IconButton colorScheme="green" icon={<AddIcon />} onClick={() => setNewPayloadOpen(true)} />
             </Tooltip>
           )}
         </Box>
-        <Box
-          display="flex"
-          flexDirection="row"
-          justifyContent="flex-end"
-          alignItems="flex-end"
-          padding="20px"
-        >
+        <Box display="flex" flexDirection="row" justifyContent="flex-end" alignItems="flex-end" padding="20px">
           {currentPayload && (
             <>
               <Tooltip label="New Payload">
-                <IconButton
-                  colorScheme="green"
-                  icon={<AddIcon />}
-                  onClick={() => setNewPayloadOpen(true)}
-                />
+                <IconButton colorScheme="green" icon={<AddIcon />} onClick={() => setNewPayloadOpen(true)} />
               </Tooltip>
               <PayloadInfo />
               <SavePayload updatePayload={updatePayload} />

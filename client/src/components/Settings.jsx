@@ -47,26 +47,12 @@ const Settings = () => {
   );
 
   return (
-    <Flex
-      alignItems="center"
-      flexDirection="column"
-      height="300px"
-      justifyContent="center"
-    >
-      <Stack
-        alignItems="center"
-        flexDirection="column"
-        justifyContent="center"
-        width="400px"
-      >
+    <Flex alignItems="center" flexDirection="column" height="300px" justifyContent="center">
+      <Stack alignItems="center" flexDirection="column" justifyContent="center" width="400px">
         <Box>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing="4">
-              <FormControl
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
+              <FormControl display="flex" alignItems="center" justifyContent="center">
                 <FormLabel htmlFor="isChecked">Dark Mode</FormLabel>
                 <Switch {...register('darkMode', {})} />
               </FormControl>
@@ -81,9 +67,7 @@ const Settings = () => {
                     {showOldPassword ? <ViewOffIcon /> : <ViewIcon />}
                   </InputRightElement>
                 </InputGroup>
-                <FormErrorMessage>
-                  {errors?.oldPassword?.message}
-                </FormErrorMessage>
+                <FormErrorMessage>{errors?.oldPassword?.message}</FormErrorMessage>
               </FormControl>
               <FormControl isInvalid={!!errors.newPassword}>
                 <InputGroup>
@@ -96,15 +80,9 @@ const Settings = () => {
                     {showNewPassword ? <ViewOffIcon /> : <ViewIcon />}
                   </InputRightElement>
                 </InputGroup>
-                <FormErrorMessage>
-                  {errors?.newPassword?.message}
-                </FormErrorMessage>
+                <FormErrorMessage>{errors?.newPassword?.message}</FormErrorMessage>
               </FormControl>
-              <Button
-                isDisabled={!isDirty}
-                isLoading={isSubmitting}
-                type="submit"
-              >
+              <Button isDisabled={!isDirty} isLoading={isSubmitting} type="submit">
                 Update Settings
               </Button>
             </Stack>
@@ -112,9 +90,7 @@ const Settings = () => {
         </Box>
       </Stack>
       {settingsResponse?.settingsMsg && (
-        <Box color={settingsResponse?.settingsError ? 'red' : 'green'}>
-          {settingsResponse?.settingsMsg}
-        </Box>
+        <Box color={settingsResponse?.settingsError ? 'red' : 'green'}>{settingsResponse?.settingsMsg}</Box>
       )}
     </Flex>
   );
