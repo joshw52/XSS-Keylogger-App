@@ -212,7 +212,16 @@ def settings_put():
         new_password = req_data['newPassword']
 
         user = User.query.filter_by(username=current_user).first()
-        if user and not check_password_hash(user.password, old_password):
+        if not old_password and not new_password:
+            user.dark_mode = dark_mode
+            db.session.commit()
+
+            response = {
+                "settingsError": False,
+                "settingsMsg": "Settings updated",
+            }
+
+        elif user and not check_password_hash(user.password, old_password):
             response = {
                 "settingsError": True,
                 "settingsMsg": "Old password is incorrect",

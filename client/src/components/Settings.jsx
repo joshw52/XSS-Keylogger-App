@@ -20,16 +20,13 @@ import {
 
 const darkModeValidation = {};
 
-const oldPasswordValidation = {
-  required: 'Password is required',
-};
+const oldPasswordValidation = {};
 
 const newPasswordValidation = {
   minLength: {
     message: 'Passwords should be at least 8 characters long',
     value: 8,
   },
-  required: 'Updated Password is required',
 };
 
 const updateSettings = (updatedSettings, setUpdateSettingsMsg) =>
