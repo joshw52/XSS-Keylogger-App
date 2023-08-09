@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import axios from 'axios';
@@ -18,17 +18,6 @@ import {
   Switch,
 } from '@chakra-ui/react';
 
-const darkModeValidation = {};
-
-const oldPasswordValidation = {};
-
-const newPasswordValidation = {
-  minLength: {
-    message: 'Passwords should be at least 8 characters long',
-    value: 8,
-  },
-};
-
 const updateSettings = (updatedSettings, setUpdateSettingsMsg) =>
   axios
     .put(`/api/settings`, updatedSettings, { withCredentials: true })
@@ -40,7 +29,7 @@ const Settings = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
 
   const {
-    formState: { errors, isSubmitting },
+    formState: { errors, isDirty, isSubmitting },
     handleSubmit,
     register,
   } = useForm({ mode: 'onSubmit' });
@@ -79,12 +68,12 @@ const Settings = () => {
                 justifyContent="center"
               >
                 <FormLabel htmlFor="isChecked">Dark Mode</FormLabel>
-                <Switch {...register('darkMode', darkModeValidation)} />
+                <Switch {...register('darkMode', {})} />
               </FormControl>
               <FormControl isInvalid={!!errors.oldPassword}>
                 <InputGroup>
                   <Input
-                    {...register('oldPassword', oldPasswordValidation)}
+                    {...register('oldPassword', {})}
                     placeholder="Old Password"
                     type={showOldPassword ? 'text' : 'password'}
                   />
@@ -99,7 +88,7 @@ const Settings = () => {
               <FormControl isInvalid={!!errors.newPassword}>
                 <InputGroup>
                   <Input
-                    {...register('newPassword', newPasswordValidation)}
+                    {...register('newPassword', {})}
                     placeholder="New Password"
                     type={showNewPassword ? 'text' : 'password'}
                   />
@@ -111,7 +100,11 @@ const Settings = () => {
                   {errors?.newPassword?.message}
                 </FormErrorMessage>
               </FormControl>
-              <Button isLoading={isSubmitting} type="submit">
+              <Button
+                isDisabled={!isDirty}
+                isLoading={isSubmitting}
+                type="submit"
+              >
                 Update Settings
               </Button>
             </Stack>
