@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
 import { AddIcon } from '@chakra-ui/icons';
-import { Box, FormControl, FormLabel, IconButton, Input, Select, Stack, Tooltip } from '@chakra-ui/react';
+import { Box, FormControl, FormLabel, IconButton, Input, Select, Stack, Tooltip, useColorMode } from '@chakra-ui/react';
 import Editor from '@monaco-editor/react';
 
 import CopyPayload from './CopyPayload';
@@ -18,6 +18,8 @@ const savePayload = (payloadId, payloadData, fetchPayloads) =>
   axios.put(`/api/payloads/${payloadId}`, payloadData, { withCredentials: true }).then(() => fetchPayloads());
 
 const Payload = () => {
+  const { colorMode } = useColorMode();
+
   const payloadDrawerRef = useRef(null);
   const payloadEditorRef = useRef(null);
 
@@ -135,6 +137,7 @@ const Payload = () => {
             defaultValue={currentPayload?.payload}
             height="90vh"
             onMount={handleEditorDidMount}
+            theme={colorMode === 'dark' ? 'vs-dark' : 'light'}
             value={currentPayload?.payload}
           />
         </Box>

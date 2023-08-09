@@ -1,30 +1,59 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import capitalize from 'lodash/capitalize';
 
 import axios from 'axios';
 
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { MoonIcon, SunIcon, ViewIcon, ViewOffIcon, WarningIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
   Flex,
   FormControl,
   FormErrorMessage,
-  FormLabel,
   Input,
   InputGroup,
   InputRightElement,
   Stack,
   Switch,
+  Text,
+  Tooltip,
+  useColorMode,
 } from '@chakra-ui/react';
 
-const updateSettings = (updatedSettings, setUpdateSettingsMsg) =>
+const updateDarkMode = (data, setDarkModeResponse, toggleDarkMode) =>
+  axios.put(`/api/darkmode`, data, { withCredentials: true }).then(response => {
+    setDarkModeResponse(response.data);
+    toggleDarkMode();
+  });
+
+const updatePassword = (data, setUpdatePasswordMsg) =>
   axios
-    .put(`/api/settings`, updatedSettings, { withCredentials: true })
-    .then(response => setUpdateSettingsMsg(response.data));
+    .put(`/api/change-password`, data, { withCredentials: true })
+    .then(response => setUpdatePasswordMsg(response.data));
 
 const Settings = () => {
-  const [settingsResponse, setSettingsResponse] = useState(null);
+  const { colorMode, toggleColorMode } = useColorMode();
+  const [darkModeResponse, setDarkModeResponse] = useState(null);
+
+  const onToggleDarkMode = useCallback(() => {
+    updateDarkMode({ darkMode: !(colorMode === 'dark') }, setDarkModeResponse, toggleColorMode);
+  }, [colorMode, setDarkModeResponse, toggleColorMode]);
+
+  const renderDarkModeIcon = useCallback((response) => {
+    if (response?.darkModeError) {
+      return (
+        <Tooltip label={response?.darkModeMsg}>
+          <WarningIcon color="red" h="6" ml="3" w="6" />
+        </Tooltip>
+      );
+    }
+    return colorMode === "dark"
+      ? <MoonIcon h="6" ml="3" w="6" />
+      : <SunIcon h="6" ml="3" w="6" />;
+  }, [colorMode]);
+
+  const [passwordResponse, setPasswordResponse] = useState(null);
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
 
@@ -34,7 +63,7 @@ const Settings = () => {
     register,
   } = useForm({ mode: 'onSubmit' });
 
-  const onSubmit = data => updateSettings(data, setSettingsResponse);
+  const onSubmit = data => updatePassword(data, setPasswordResponse);
 
   const toggleShowOldPassword = useCallback(
     () => setShowOldPassword(!showOldPassword),
@@ -48,14 +77,17 @@ const Settings = () => {
 
   return (
     <Flex alignItems="center" flexDirection="column" height="300px" justifyContent="center">
+      <Flex alignItems="baseline" flexDirection="row" justifyContent="center">
+        <FormControl display="flex" alignItems="center" justifyContent="center" m="10">
+          <Text fontSize="xl">{capitalize(colorMode)} Mode</Text>
+          <Switch isChecked={colorMode === 'dark'} ml="3" onChange={onToggleDarkMode} size="lg" />
+          {renderDarkModeIcon(darkModeResponse)}
+        </FormControl>
+      </Flex>
       <Stack alignItems="center" flexDirection="column" justifyContent="center" width="400px">
         <Box>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing="4">
-              <FormControl display="flex" alignItems="center" justifyContent="center">
-                <FormLabel htmlFor="isChecked">Dark Mode</FormLabel>
-                <Switch {...register('darkMode', {})} />
-              </FormControl>
               <FormControl isInvalid={!!errors.oldPassword}>
                 <InputGroup>
                   <Input
@@ -83,14 +115,14 @@ const Settings = () => {
                 <FormErrorMessage>{errors?.newPassword?.message}</FormErrorMessage>
               </FormControl>
               <Button isDisabled={!isDirty} isLoading={isSubmitting} type="submit">
-                Update Settings
+                Update Password
               </Button>
             </Stack>
           </form>
         </Box>
       </Stack>
-      {settingsResponse?.settingsMsg && (
-        <Box color={settingsResponse?.settingsError ? 'red' : 'green'}>{settingsResponse?.settingsMsg}</Box>
+      {passwordResponse?.settingsMsg && (
+        <Box color={passwordResponse?.settingsError ? 'red' : 'green'}>{passwordResponse?.settingsMsg}</Box>
       )}
     </Flex>
   );

@@ -3,7 +3,7 @@ import jwt
 from flask import jsonify, request
 from flask_bcrypt import check_password_hash
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, set_access_cookies, unset_jwt_cookies
-from sqlalchemy.exc import IntegrityError, SQLAlchemyError
+from sqlalchemy.exc import IntegrityError
 
 from app import bcrypt, create_app, db, jwt
 from models import Log, Payload, User
@@ -200,28 +200,44 @@ def payloads_put(payload_id=None):
         }
     return jsonify(response)
 
-@app.put("/api/settings")
+@app.put("/api/darkmode")
 @jwt_required()
-def settings_put():
+def dark_mode_put():
     req_data = json.loads(request.data)
     current_user = get_jwt_identity()
 
     try:
         dark_mode = req_data['darkMode']
+        user = User.query.filter_by(username=current_user).first()
+        user.dark_mode = dark_mode
+        db.session.commit()
+
+        response = {
+            "darkModeError": False,
+            "darkModeMsg": "dark" if user.dark_mode else "light",
+        }
+
+    except:
+        db.session.rollback()
+        response = {
+            "darkModeError": True,
+            "darkModeMsg": "Error updating dark mode",
+        }
+
+    return jsonify(response)
+
+@app.put("/api/change-password")
+@jwt_required()
+def change_password_put():
+    req_data = json.loads(request.data)
+    current_user = get_jwt_identity()
+
+    try:
         old_password = req_data['oldPassword']
         new_password = req_data['newPassword']
 
         user = User.query.filter_by(username=current_user).first()
-        if not old_password and not new_password:
-            user.dark_mode = dark_mode
-            db.session.commit()
-
-            response = {
-                "settingsError": False,
-                "settingsMsg": "Settings updated",
-            }
-
-        elif user and not check_password_hash(user.password, old_password):
+        if user and not check_password_hash(user.password, old_password):
             response = {
                 "settingsError": True,
                 "settingsMsg": "Old password is incorrect",
@@ -234,7 +250,6 @@ def settings_put():
             }
 
         else:
-            user.dark_mode = dark_mode
             user.password = bcrypt.generate_password_hash(new_password)
             db.session.commit()
 
@@ -242,10 +257,12 @@ def settings_put():
                 "settingsError": False,
                 "settingsMsg": "Settings updated",
             }
+
     except:
         db.session.rollback()
         response = {
             "settingsError": True,
             "settingsMsg": "Error updating settings",
         }
+
     return jsonify(response)
