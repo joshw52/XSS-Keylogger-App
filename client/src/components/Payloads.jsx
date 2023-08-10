@@ -2,7 +2,22 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
 import { AddIcon } from '@chakra-ui/icons';
-import { Box, FormControl, FormLabel, IconButton, Input, Select, Stack, Tooltip, useColorMode } from '@chakra-ui/react';
+import {
+  Box,
+  FormControl,
+  FormLabel,
+  IconButton,
+  Input,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  Select,
+  Stack,
+  Tooltip,
+  useColorMode,
+} from '@chakra-ui/react';
 import Editor from '@monaco-editor/react';
 
 import CopyPayload from './CopyPayload';
@@ -11,8 +26,11 @@ import NewPayloadModal from './NewPayloadModal';
 import PayloadInfo from './PayloadInfo';
 import SavePayload from './SavePayload';
 
-const getPayloads = setPayloads =>
-  axios.get('/api/payloads', { withCredentials: true }).then(response => setPayloads(response.data.payloads));
+const getPayloads = (setPayloads, setCurrentPayload) =>
+  axios.get('/api/payloads', { withCredentials: true }).then(response => {
+    setPayloads(response.data.payloads);
+    if (response?.data?.payloads?.length > 0) setCurrentPayload(response.data.payloads[0]);
+  });
 
 const savePayload = (payloadId, payloadData, fetchPayloads) =>
   axios.put(`/api/payloads/${payloadId}`, payloadData, { withCredentials: true }).then(() => fetchPayloads());
@@ -28,10 +46,11 @@ const Payload = () => {
   };
 
   const [currentPayload, setCurrentPayload] = useState(null);
+  const [fontSize, setFontSize] = useState(14);
   const [newPayloadOpen, setNewPayloadOpen] = useState(false);
   const [payloads, setPayloads] = useState([]);
 
-  const fetchPayloads = () => getPayloads(setPayloads);
+  const fetchPayloads = useCallback(() => getPayloads(setPayloads, setCurrentPayload), [setCurrentPayload]);
 
   useEffect(() => {
     fetchPayloads();
@@ -74,7 +93,7 @@ const Payload = () => {
           padding="20px"
           width="60%"
         >
-          <FormControl marginRight="20px" width="300px">
+          <FormControl marginRight="15px" width="300px">
             <FormLabel>Select a Payload to Edit</FormLabel>
             <Select
               bg="gray.100"
@@ -90,22 +109,40 @@ const Payload = () => {
             </Select>
           </FormControl>
           {currentPayload ? (
-            <FormControl width="300px">
-              <FormLabel>Payload Name</FormLabel>
-              <Input
-                bg="gray.100"
-                id="payloadName"
-                onChange={e =>
-                  setCurrentPayload({
-                    ...currentPayload,
-                    name: e.target.value,
-                  })
-                }
-                ref={payloadDrawerRef}
-                placeholder="Enter a payload name"
-                value={currentPayload?.name}
-              />
-            </FormControl>
+            <>
+              <FormControl width="300px">
+                <FormLabel>Payload Name</FormLabel>
+                <Input
+                  bg="gray.100"
+                  id="payloadName"
+                  onChange={e =>
+                    setCurrentPayload({
+                      ...currentPayload,
+                      name: e.target.value,
+                    })
+                  }
+                  ref={payloadDrawerRef}
+                  placeholder="Enter a payload name"
+                  value={currentPayload?.name}
+                />
+              </FormControl>
+              <FormControl marginLeft="15px" width="90px">
+                <FormLabel>Font Size</FormLabel>
+                <NumberInput
+                  bg="gray.100"
+                  borderRadius="md"
+                  max={30}
+                  onChange={valueString => setFontSize(valueString.replace(/^\$/, ''))}
+                  value={fontSize}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
+            </>
           ) : (
             <Tooltip label="New Payload">
               <IconButton colorScheme="green" icon={<AddIcon />} onClick={() => setNewPayloadOpen(true)} />
@@ -137,6 +174,9 @@ const Payload = () => {
             defaultValue={currentPayload?.payload}
             height="90vh"
             onMount={handleEditorDidMount}
+            options={{
+              fontSize,
+            }}
             theme={colorMode === 'dark' ? 'vs-dark' : 'light'}
             value={currentPayload?.payload}
           />
