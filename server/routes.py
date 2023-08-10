@@ -239,14 +239,14 @@ def change_password_put():
         user = User.query.filter_by(username=current_user).first()
         if user and not check_password_hash(user.password, old_password):
             response = {
-                "settingsError": True,
-                "settingsMsg": "Old password is incorrect",
+                "passwordError": True,
+                "passwordMsg": "Old password is incorrect",
             }
 
         elif len(new_password) < 8:
             response = {
-                "settingsError": True,
-                "settingsMsg": "Password should be at least 8 characters long",
+                "passwordError": True,
+                "passwordMsg": "Password should be at least 8 characters long",
             }
 
         else:
@@ -254,15 +254,15 @@ def change_password_put():
             db.session.commit()
 
             response = {
-                "settingsError": False,
-                "settingsMsg": "Settings updated",
+                "passwordError": False,
+                "passwordMsg": "Password updated",
             }
 
     except:
         db.session.rollback()
         response = {
-            "settingsError": True,
-            "settingsMsg": "Error updating settings",
+            "passwordError": True,
+            "passwordMsg": "Error updating settings",
         }
 
     return jsonify(response)

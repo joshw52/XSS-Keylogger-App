@@ -39,8 +39,8 @@ const savePayload = (payloadId, payloadData, fetchPayloads) =>
 const Payload = () => {
   const { colorMode } = useColorMode();
 
-  const optionsBg = useColorModeValue('gray.300', 'gray.700')
-  const optionsInputBg = useColorModeValue('gray.100', 'gray.600')
+  const optionsBg = useColorModeValue('gray.300', 'gray.700');
+  const optionsInputBg = useColorModeValue('gray.100', 'gray.600');
 
   const payloadDrawerRef = useRef(null);
   const payloadEditorRef = useRef(null);

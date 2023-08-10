@@ -21,6 +21,7 @@ import {
   Th,
   Thead,
   Tr,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 import LogModal, { parseKeystrokes } from './LogModal';
@@ -42,6 +43,10 @@ const searchKeystrokes = (logs, searchTerm) =>
   logs.filter(log => JSON.parse(atob(log.keystrokes)).join('').toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
 
 const Logs = () => {
+  const logsHeaderBg = useColorModeValue('gray.300', 'gray.700');
+  const logsHeaderInputBg = useColorModeValue('gray.100', 'gray.500');
+  const logsTableHeaderInputBg = useColorModeValue('gray.200', 'gray.600');
+
   const [logs, setLogs] = useState([]);
   const [searchTerm, setSearchTerm] = useState(null);
   const [selectedIp, setSelectedIp] = useState(null);
@@ -64,9 +69,9 @@ const Logs = () => {
   return (
     <Stack spacing="0">
       {selectedLog && <LogModal selectedLog={selectedLog} setShowDetails={setShowDetails} showDetails={showDetails} />}
-      <Card bg="gray.300" borderRadius="sm" direction={{ base: 'column', sm: 'row' }}>
+      <Card bg={logsHeaderBg} borderRadius="sm" direction={{ base: 'column', sm: 'row' }}>
         <CardBody>
-          <Select bg="gray.100" onChange={e => setSelectedIp(e.target.value)} placeholder="Filter by IP address">
+          <Select bg={logsHeaderInputBg} onChange={e => setSelectedIp(e.target.value)} placeholder="Filter by IP address">
             {getIPs(logs).map(ip => (
               <option key={`ipOption/${ip}`} value={ip}>
                 {ip}
@@ -76,7 +81,7 @@ const Logs = () => {
         </CardBody>
         <CardBody>
           <Input
-            bg="gray.100"
+            bg={logsHeaderInputBg}
             onChange={e => setSearchTerm(e.target.value)}
             placeholder="Search Logs"
             value={searchTerm}
@@ -85,7 +90,7 @@ const Logs = () => {
       </Card>
       <TableContainer borderRadius="sm" maxHeight="500px" overflowY="auto">
         <Table>
-          <Thead bg="gray.200" position="sticky" top={0}>
+          <Thead bg={logsTableHeaderInputBg} position="sticky" top={0}>
             <Tr>
               <Th>IP</Th>
               <Th>Date</Th>

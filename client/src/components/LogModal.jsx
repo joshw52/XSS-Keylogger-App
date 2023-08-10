@@ -24,6 +24,7 @@ import {
   TabPanels,
   Text,
   Tooltip,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import moment from 'moment-timezone';
 
@@ -53,6 +54,8 @@ export const parseKeystrokes = (keystrokes, processKeys = false) => {
 };
 
 const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
+  const logsModalTextBg = useColorModeValue('gray.200', 'gray.600');
+
   const [processKeys, setProcessKeys] = useState(false);
 
   const toggleProcessKeys = useCallback(() => setProcessKeys(!processKeys), [processKeys, setProcessKeys]);
@@ -97,7 +100,7 @@ const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
                     <InfoIcon ml="2" />
                   </Tooltip>
                 </FormControl>
-                <Box borderRadius="md" bg="gray.200" p="10px">
+                <Box borderRadius="md" bg={logsModalTextBg} p="10px">
                   <Text mb="1rem" style={{ whiteSpace: 'pre-line' }}>
                     {processedKeys}
                   </Text>
@@ -105,7 +108,7 @@ const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
               </TabPanel>
               {selectedLog.cookies && (
                 <TabPanel>
-                  <Box borderRadius="md" bg="gray.200" p="10px">
+                  <Box borderRadius="md" bg={logsModalTextBg} p="10px">
                     <Text mb="1rem" style={{ whiteSpace: 'pre-line' }}>
                       {atob(selectedLog.cookies)}
                     </Text>
@@ -119,7 +122,7 @@ const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
                       <Heading as="h4" size="md">
                         Local Storage
                       </Heading>
-                      <Box borderRadius="md" bg="gray.200" p="10px">
+                      <Box borderRadius="md" bg={logsModalTextBg} p="10px">
                         <Text mb="1rem" style={{ whiteSpace: 'pre-line' }}>
                           {atob(selectedLog.local_storage)}
                         </Text>
@@ -131,7 +134,7 @@ const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
                       <Heading as="h4" size="md">
                         Session Storage
                       </Heading>
-                      <Box borderRadius="md" bg="gray.200" p="10px">
+                      <Box borderRadius="md" bg={logsModalTextBg} p="10px">
                         <Text mb="1rem" style={{ whiteSpace: 'pre-line' }}>
                           {atob(selectedLog.session_storage)}
                         </Text>
