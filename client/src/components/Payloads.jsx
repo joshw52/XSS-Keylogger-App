@@ -17,6 +17,7 @@ import {
   Stack,
   Tooltip,
   useColorMode,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import Editor from '@monaco-editor/react';
 
@@ -37,6 +38,9 @@ const savePayload = (payloadId, payloadData, fetchPayloads) =>
 
 const Payload = () => {
   const { colorMode } = useColorMode();
+
+  const optionsBg = useColorModeValue('gray.300', 'gray.700')
+  const optionsInputBg = useColorModeValue('gray.100', 'gray.600')
 
   const payloadDrawerRef = useRef(null);
   const payloadEditorRef = useRef(null);
@@ -78,7 +82,7 @@ const Payload = () => {
         setNewPayloadOpen={setNewPayloadOpen}
       />
       <Box
-        bg="gray.300"
+        bg={optionsBg}
         borderRadius="sm"
         display="flex"
         flexDirection="row"
@@ -96,7 +100,7 @@ const Payload = () => {
           <FormControl marginRight="15px" width="300px">
             <FormLabel>Select a Payload to Edit</FormLabel>
             <Select
-              bg="gray.100"
+              bg={optionsInputBg}
               onChange={e => setCurrentPayload(payloads.find(p => Number(p.id) === Number(e.target.value)))}
               placeholder="- Select a Payload -"
               value={currentPayload?.id}
@@ -113,7 +117,7 @@ const Payload = () => {
               <FormControl width="300px">
                 <FormLabel>Payload Name</FormLabel>
                 <Input
-                  bg="gray.100"
+                  bg={optionsInputBg}
                   id="payloadName"
                   onChange={e =>
                     setCurrentPayload({
@@ -129,7 +133,7 @@ const Payload = () => {
               <FormControl marginLeft="15px" width="90px">
                 <FormLabel>Font Size</FormLabel>
                 <NumberInput
-                  bg="gray.100"
+                  bg={optionsInputBg}
                   borderRadius="md"
                   max={30}
                   onChange={valueString => setFontSize(valueString.replace(/^\$/, ''))}
