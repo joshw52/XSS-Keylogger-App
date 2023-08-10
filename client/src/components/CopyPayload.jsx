@@ -13,13 +13,13 @@ const CopyPayload = ({ copyPayloadToClipboard }) => {
   };
 
   return (
-    <Popover closeOnBlur={true} isOpen={open} onClose={() => setOpen(false)} placement="bottom">
+    <Popover closeOnBlur={true} isOpen={open} onClose={() => setOpen(false)} placement='bottom'>
       <PopoverTrigger>
-        <Tooltip label="Copy to Clipboard">
+        <Tooltip label='Copy to Clipboard'>
           <IconButton
-            colorScheme="orange"
+            colorScheme='orange'
             icon={<CopyIcon />}
-            marginLeft="15px"
+            marginLeft='15px'
             onClick={() => {
               copyPayloadToClipboard();
               setOpen(true);

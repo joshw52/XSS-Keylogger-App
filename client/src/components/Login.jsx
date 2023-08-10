@@ -40,20 +40,20 @@ const Login = () => {
   const toggleShowPassword = useCallback(() => setShowPassword(!showPassword), [setShowPassword, showPassword]);
 
   return (
-    <Flex alignItems="center" flexDirection="column" height="400px" justifyContent="center">
-      <Stack alignItems="center" flexDirection="column" justifyContent="center" width="400px">
+    <Flex alignItems='center' flexDirection='column' height='400px' justifyContent='center'>
+      <Stack alignItems='center' flexDirection='column' justifyContent='center' width='400px'>
         <Box>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing="4">
+            <Stack spacing='4'>
               <FormControl isInvalid={!!errors.username}>
-                <Input {...register('username', usernameValidation)} placeholder="Username" type="text" />
+                <Input {...register('username', usernameValidation)} placeholder='Username' type='text' />
                 <FormErrorMessage>{errors?.username?.message}</FormErrorMessage>
               </FormControl>
               <FormControl isInvalid={!!errors.password}>
                 <InputGroup>
                   <Input
                     {...register('password', passwordValidation)}
-                    placeholder="Password"
+                    placeholder='Password'
                     type={showPassword ? 'text' : 'password'}
                   />
                   <InputRightElement onClick={toggleShowPassword}>
@@ -62,7 +62,7 @@ const Login = () => {
                 </InputGroup>
                 <FormErrorMessage>{errors?.password?.message}</FormErrorMessage>
               </FormControl>
-              <Button isLoading={isSubmitting} type="submit">
+              <Button isLoading={isSubmitting} type='submit'>
                 Login
               </Button>
             </Stack>
@@ -70,10 +70,10 @@ const Login = () => {
         </Box>
       </Stack>
       {loginResponse?.loginMsg && (
-        <Box color={loginResponse?.loginError ? 'red' : 'green'}>{loginResponse?.loginMsg}</Box>
+        <Box color={loginResponse?.loginError ? 'red.500' : 'green.500'}>{loginResponse?.loginMsg}</Box>
       )}
       <Box>
-        No Account? <Link href="/register">Register</Link>
+        No Account? <Link href='/register'>Register</Link>
       </Box>
     </Flex>
   );

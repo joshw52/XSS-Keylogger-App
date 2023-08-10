@@ -83,26 +83,26 @@ const Payload = () => {
       />
       <Box
         bg={optionsBg}
-        borderRadius="sm"
-        display="flex"
-        flexDirection="row"
-        justifyContent="space-between"
-        width="100%"
+        borderRadius='sm'
+        display='flex'
+        flexDirection='row'
+        justifyContent='space-between'
+        width='100%'
       >
         <Box
-          display="flex"
-          flexDirection="row"
-          justifyContent="flex-start"
-          alignItems="flex-end"
-          padding="20px"
-          width="60%"
+          display='flex'
+          flexDirection='row'
+          justifyContent='flex-start'
+          alignItems='flex-end'
+          padding='20px'
+          width='60%'
         >
-          <FormControl marginRight="15px" width="300px">
+          <FormControl marginRight='15px' width='300px'>
             <FormLabel>Select a Payload to Edit</FormLabel>
             <Select
               bg={optionsInputBg}
               onChange={e => setCurrentPayload(payloads.find(p => Number(p.id) === Number(e.target.value)))}
-              placeholder="- Select a Payload -"
+              placeholder='- Select a Payload -'
               value={currentPayload?.id}
             >
               {payloads.map(({ id, name }) => (
@@ -114,11 +114,11 @@ const Payload = () => {
           </FormControl>
           {currentPayload ? (
             <>
-              <FormControl width="300px">
+              <FormControl width='300px'>
                 <FormLabel>Payload Name</FormLabel>
                 <Input
                   bg={optionsInputBg}
-                  id="payloadName"
+                  id='payloadName'
                   onChange={e =>
                     setCurrentPayload({
                       ...currentPayload,
@@ -126,15 +126,15 @@ const Payload = () => {
                     })
                   }
                   ref={payloadDrawerRef}
-                  placeholder="Enter a payload name"
+                  placeholder='Enter a payload name'
                   value={currentPayload?.name}
                 />
               </FormControl>
-              <FormControl marginLeft="15px" width="90px">
+              <FormControl marginLeft='15px' width='90px'>
                 <FormLabel>Font Size</FormLabel>
                 <NumberInput
                   bg={optionsInputBg}
-                  borderRadius="md"
+                  borderRadius='md'
                   max={30}
                   onChange={valueString => setFontSize(valueString.replace(/^\$/, ''))}
                   value={fontSize}
@@ -148,16 +148,16 @@ const Payload = () => {
               </FormControl>
             </>
           ) : (
-            <Tooltip label="New Payload">
-              <IconButton colorScheme="green" icon={<AddIcon />} onClick={() => setNewPayloadOpen(true)} />
+            <Tooltip label='New Payload'>
+              <IconButton colorScheme='green' icon={<AddIcon />} onClick={() => setNewPayloadOpen(true)} />
             </Tooltip>
           )}
         </Box>
-        <Box display="flex" flexDirection="row" justifyContent="flex-end" alignItems="flex-end" padding="20px">
+        <Box display='flex' flexDirection='row' justifyContent='flex-end' alignItems='flex-end' padding='20px'>
           {currentPayload && (
             <>
-              <Tooltip label="New Payload">
-                <IconButton colorScheme="green" icon={<AddIcon />} onClick={() => setNewPayloadOpen(true)} />
+              <Tooltip label='New Payload'>
+                <IconButton colorScheme='green' icon={<AddIcon />} onClick={() => setNewPayloadOpen(true)} />
               </Tooltip>
               <PayloadInfo />
               <SavePayload updatePayload={updatePayload} />
@@ -172,11 +172,11 @@ const Payload = () => {
         </Box>
       </Box>
       {currentPayload && (
-        <Box height="100%" width="100%">
+        <Box height='100%' width='100%'>
           <Editor
-            defaultLanguage="javascript"
+            defaultLanguage='javascript'
             defaultValue={currentPayload?.payload}
-            height="90vh"
+            height='90vh'
             onMount={handleEditorDidMount}
             options={{
               fontSize,

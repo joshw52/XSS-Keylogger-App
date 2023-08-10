@@ -52,15 +52,15 @@ const NewPayloadModal = ({ fetchPayloads, newPayloadOpen, setCurrentPayload, set
       isCentered
       isOpen={newPayloadOpen}
       onClose={() => setNewPayloadOpen(false)}
-      size="lg"
+      size='lg'
     >
       <ModalOverlay />
-      <ModalContent height="200px">
+      <ModalContent height='200px'>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader>Create New Payload</ModalHeader>
-          <ModalBody overflowY="scroll">
+          <ModalBody overflowY='scroll'>
             <FormControl isInvalid={!!errors.payloadName}>
-              <Input {...register('payloadName', payloadNameValidation)} placeholder="New Payload Name" type="text" />
+              <Input {...register('payloadName', payloadNameValidation)} placeholder='New Payload Name' type='text' />
               <FormErrorMessage>{errors?.payloadName?.message}</FormErrorMessage>
             </FormControl>
           </ModalBody>
@@ -68,7 +68,7 @@ const NewPayloadModal = ({ fetchPayloads, newPayloadOpen, setCurrentPayload, set
             <Button mr={5} onClick={cancelNewPayloadCreate}>
               Cancel
             </Button>
-            <Button colorScheme="green" isLoading={isSubmitting} type="submit">
+            <Button colorScheme='green' isLoading={isSubmitting} type='submit'>
               Create
             </Button>
           </ModalFooter>

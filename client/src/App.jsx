@@ -24,18 +24,18 @@ function App() {
                   <Login />
                 </RefreshRedirect>
               }
-              path="/"
+              path='/'
             />
-            <Route element={<Register />} path="/register" />
+            <Route element={<Register />} path='/register' />
             <Route
               element={
                 <PrivateRoute>
                   <Dashboard />
                 </PrivateRoute>
               }
-              path="/dashboard"
+              path='/dashboard'
             />
-            <Route element={<Login />} path="*" />
+            <Route element={<Login />} path='*' />
           </Routes>
         </Router>
       </AuthProvider>

@@ -67,11 +67,15 @@ const Logs = () => {
   }, [logs, searchTerm, selectedIp]);
 
   return (
-    <Stack spacing="0">
+    <Stack spacing='0'>
       {selectedLog && <LogModal selectedLog={selectedLog} setShowDetails={setShowDetails} showDetails={showDetails} />}
-      <Card bg={logsHeaderBg} borderRadius="sm" direction={{ base: 'column', sm: 'row' }}>
+      <Card bg={logsHeaderBg} borderRadius='sm' direction={{ base: 'column', sm: 'row' }}>
         <CardBody>
-          <Select bg={logsHeaderInputBg} onChange={e => setSelectedIp(e.target.value)} placeholder="Filter by IP address">
+          <Select
+            bg={logsHeaderInputBg}
+            onChange={e => setSelectedIp(e.target.value)}
+            placeholder='Filter by IP address'
+          >
             {getIPs(logs).map(ip => (
               <option key={`ipOption/${ip}`} value={ip}>
                 {ip}
@@ -83,14 +87,14 @@ const Logs = () => {
           <Input
             bg={logsHeaderInputBg}
             onChange={e => setSearchTerm(e.target.value)}
-            placeholder="Search Logs"
+            placeholder='Search Logs'
             value={searchTerm}
           />
         </CardBody>
       </Card>
-      <TableContainer borderRadius="sm" maxHeight="500px" overflowY="auto">
+      <TableContainer borderRadius='sm' maxHeight='500px' overflowY='auto'>
         <Table>
-          <Thead bg={logsTableHeaderInputBg} position="sticky" top={0}>
+          <Thead bg={logsTableHeaderInputBg} position='sticky' top={0}>
             <Tr>
               <Th>IP</Th>
               <Th>Date</Th>

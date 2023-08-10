@@ -6,7 +6,7 @@ import { AuthContext } from '../authContext';
 const PrivateRoute = ({ children }) => {
   const { loggedIn } = useContext(AuthContext);
   const location = useLocation();
-  return !loggedIn ? <Navigate replace state={{ from: location }} to="/" /> : children;
+  return !loggedIn ? <Navigate replace state={{ from: location }} to='/' /> : children;
 };
 
 export default PrivateRoute;

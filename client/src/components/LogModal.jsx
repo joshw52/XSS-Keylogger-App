@@ -44,7 +44,7 @@ export const parseKeystrokes = (keystrokes, processKeys = false) => {
   }
   return decodedKeystrokes.map(key =>
     key.length > 1 ? (
-      <Code colorScheme="green" margin="1px">
+      <Code colorScheme='green' margin='1px'>
         {key.toUpperCase()}
       </Code>
     ) : (
@@ -66,14 +66,14 @@ const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
   );
 
   return (
-    <Modal blockScrollOnMount={false} isCentered isOpen={showDetails} onClose={() => setShowDetails(null)} size="lg">
+    <Modal blockScrollOnMount={false} isCentered isOpen={showDetails} onClose={() => setShowDetails(null)} size='lg'>
       <ModalOverlay />
-      <ModalContent height="500px">
+      <ModalContent height='500px'>
         <ModalHeader>
           {selectedLog.ip} - {moment(selectedLog.created_at).format('MMM DD, YYYY hh:mm a')}
         </ModalHeader>
-        <ModalBody overflowY="scroll">
-          <Tabs variant="soft-rounded" colorScheme="green">
+        <ModalBody overflowY='scroll'>
+          <Tabs variant='soft-rounded' colorScheme='green'>
             <TabList>
               <Tab>
                 Keystrokes &nbsp;
@@ -94,22 +94,22 @@ const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
             </TabList>
             <TabPanels>
               <TabPanel>
-                <FormControl mb="5">
+                <FormControl mb='5'>
                   <Checkbox onChange={toggleProcessKeys}>Process keystrokes</Checkbox>
                   <Tooltip label={PROCESS_KEYS_INFO}>
-                    <InfoIcon ml="2" />
+                    <InfoIcon ml='2' />
                   </Tooltip>
                 </FormControl>
-                <Box borderRadius="md" bg={logsModalTextBg} p="10px">
-                  <Text mb="1rem" style={{ whiteSpace: 'pre-line' }}>
+                <Box borderRadius='md' bg={logsModalTextBg} p='10px'>
+                  <Text mb='1rem' style={{ whiteSpace: 'pre-line' }}>
                     {processedKeys}
                   </Text>
                 </Box>
               </TabPanel>
               {selectedLog.cookies && (
                 <TabPanel>
-                  <Box borderRadius="md" bg={logsModalTextBg} p="10px">
-                    <Text mb="1rem" style={{ whiteSpace: 'pre-line' }}>
+                  <Box borderRadius='md' bg={logsModalTextBg} p='10px'>
+                    <Text mb='1rem' style={{ whiteSpace: 'pre-line' }}>
                       {atob(selectedLog.cookies)}
                     </Text>
                   </Box>
@@ -119,11 +119,11 @@ const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
                 <TabPanel>
                   {selectedLog.local_storage && (
                     <>
-                      <Heading as="h4" size="md">
+                      <Heading as='h4' size='md'>
                         Local Storage
                       </Heading>
-                      <Box borderRadius="md" bg={logsModalTextBg} p="10px">
-                        <Text mb="1rem" style={{ whiteSpace: 'pre-line' }}>
+                      <Box borderRadius='md' bg={logsModalTextBg} p='10px'>
+                        <Text mb='1rem' style={{ whiteSpace: 'pre-line' }}>
                           {atob(selectedLog.local_storage)}
                         </Text>
                       </Box>
@@ -131,11 +131,11 @@ const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
                   )}
                   {selectedLog.session_storage && (
                     <>
-                      <Heading as="h4" size="md">
+                      <Heading as='h4' size='md'>
                         Session Storage
                       </Heading>
-                      <Box borderRadius="md" bg={logsModalTextBg} p="10px">
-                        <Text mb="1rem" style={{ whiteSpace: 'pre-line' }}>
+                      <Box borderRadius='md' bg={logsModalTextBg} p='10px'>
+                        <Text mb='1rem' style={{ whiteSpace: 'pre-line' }}>
                           {atob(selectedLog.session_storage)}
                         </Text>
                       </Box>
@@ -147,7 +147,7 @@ const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
           </Tabs>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={() => setShowDetails(null)}>
+          <Button colorScheme='blue' mr={3} onClick={() => setShowDetails(null)}>
             Close
           </Button>
         </ModalFooter>

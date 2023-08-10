@@ -13,13 +13,13 @@ const CopyPayload = ({ updatePayload }) => {
   };
 
   return (
-    <Popover closeOnBlur={true} isOpen={open} onClose={() => setOpen(false)} placement="bottom">
+    <Popover closeOnBlur={true} isOpen={open} onClose={() => setOpen(false)} placement='bottom'>
       <PopoverTrigger>
-        <Tooltip label="Save Payload">
+        <Tooltip label='Save Payload'>
           <IconButton
-            colorScheme="blue"
+            colorScheme='blue'
             icon={<Icon as={MdSave} />}
-            marginLeft="15px"
+            marginLeft='15px'
             onClick={() => {
               updatePayload();
               setOpen(true);

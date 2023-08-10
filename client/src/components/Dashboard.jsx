@@ -39,7 +39,7 @@ const Dashboard = () => {
 
   return (
     <Stack>
-      <Box display="flex" flexDirection="row" justifyContent="space-between" padding="20px">
+      <Box display='flex' flexDirection='row' justifyContent='space-between' padding='20px'>
         <Heading>Keylogging App</Heading>
         <Menu>
           <MenuButton as={Button} key={`page-${selectedPage}`} rightIcon={<ChevronDownIcon />}>

@@ -45,11 +45,11 @@ const Settings = () => {
       if (response?.darkModeError) {
         return (
           <Tooltip label={response?.darkModeMsg}>
-            <WarningIcon color="red.500" h="6" ml="3" w="6" />
+            <WarningIcon color='red.500' h='6' ml='3' w='6' />
           </Tooltip>
         );
       }
-      return colorMode === 'dark' ? <MoonIcon h="6" ml="3" w="6" /> : <SunIcon h="6" ml="3" w="6" />;
+      return colorMode === 'dark' ? <MoonIcon h='6' ml='3' w='6' /> : <SunIcon h='6' ml='3' w='6' />;
     },
     [colorMode],
   );
@@ -77,23 +77,23 @@ const Settings = () => {
   );
 
   return (
-    <Flex alignItems="center" flexDirection="column" height="300px" justifyContent="center">
-      <Flex alignItems="baseline" flexDirection="row" justifyContent="center">
-        <FormControl display="flex" alignItems="center" justifyContent="center" m="10">
-          <Text fontSize="xl">{capitalize(colorMode)} Mode</Text>
-          <Switch isChecked={colorMode === 'dark'} ml="3" onChange={onToggleDarkMode} size="lg" />
+    <Flex alignItems='center' flexDirection='column' height='300px' justifyContent='center'>
+      <Flex alignItems='baseline' flexDirection='row' justifyContent='center'>
+        <FormControl display='flex' alignItems='center' justifyContent='center' m='10'>
+          <Text fontSize='xl'>{capitalize(colorMode)} Mode</Text>
+          <Switch isChecked={colorMode === 'dark'} ml='3' onChange={onToggleDarkMode} size='lg' />
           {renderDarkModeIcon(darkModeResponse)}
         </FormControl>
       </Flex>
-      <Stack alignItems="center" flexDirection="column" justifyContent="center" width="400px">
+      <Stack alignItems='center' flexDirection='column' justifyContent='center' width='400px'>
         <Box>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing="4">
+            <Stack spacing='4'>
               <FormControl isInvalid={!!errors.oldPassword}>
                 <InputGroup>
                   <Input
                     {...register('oldPassword', {})}
-                    placeholder="Old Password"
+                    placeholder='Old Password'
                     type={showOldPassword ? 'text' : 'password'}
                   />
                   <InputRightElement onClick={toggleShowOldPassword}>
@@ -106,7 +106,7 @@ const Settings = () => {
                 <InputGroup>
                   <Input
                     {...register('newPassword', {})}
-                    placeholder="New Password"
+                    placeholder='New Password'
                     type={showNewPassword ? 'text' : 'password'}
                   />
                   <InputRightElement onClick={toggleShowNewPassword}>
@@ -115,7 +115,7 @@ const Settings = () => {
                 </InputGroup>
                 <FormErrorMessage>{errors?.newPassword?.message}</FormErrorMessage>
               </FormControl>
-              <Button isDisabled={!isDirty} isLoading={isSubmitting} type="submit">
+              <Button isDisabled={!isDirty} isLoading={isSubmitting} type='submit'>
                 Update Password
               </Button>
             </Stack>
@@ -123,7 +123,7 @@ const Settings = () => {
         </Box>
       </Stack>
       {passwordResponse?.passwordMsg && (
-        <Box color={passwordResponse?.passwordError ? 'red.500' : 'green.500'} mt="2">
+        <Box color={passwordResponse?.passwordError ? 'red.500' : 'green.500'} mt='2'>
           {passwordResponse?.passwordMsg}
         </Box>
       )}
