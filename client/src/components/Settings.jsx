@@ -45,7 +45,7 @@ const Settings = () => {
       if (response?.darkModeError) {
         return (
           <Tooltip label={response?.darkModeMsg}>
-            <WarningIcon color="red" h="6" ml="3" w="6" />
+            <WarningIcon color="red.500" h="6" ml="3" w="6" />
           </Tooltip>
         );
       }
