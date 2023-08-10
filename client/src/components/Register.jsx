@@ -87,9 +87,9 @@ const Register = () => {
         </Box>
       </Stack>
       {registerResponse?.registerMsg && (
-        <Box color={registerResponse?.registerError ? 'red.500' : 'green.500'}>{registerResponse?.registerMsg}</Box>
+        <Box color={registerResponse?.registerError ? 'red.500' : 'green.500'} mt="2">{registerResponse?.registerMsg}</Box>
       )}
-      <Box>
+      <Box mt="2">
         Have an account? <Link href='/'>Login</Link>
       </Box>
     </Flex>

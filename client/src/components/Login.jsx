@@ -70,9 +70,9 @@ const Login = () => {
         </Box>
       </Stack>
       {loginResponse?.loginMsg && (
-        <Box color={loginResponse?.loginError ? 'red.500' : 'green.500'}>{loginResponse?.loginMsg}</Box>
+        <Box color={loginResponse?.loginError ? 'red.500' : 'green.500'} mt="2">{loginResponse?.loginMsg}</Box>
       )}
-      <Box>
+      <Box mt="2">
         No Account? <Link href='/register'>Register</Link>
       </Box>
     </Flex>
