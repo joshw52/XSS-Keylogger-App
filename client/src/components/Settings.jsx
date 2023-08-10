@@ -40,18 +40,19 @@ const Settings = () => {
     updateDarkMode({ darkMode: !(colorMode === 'dark') }, setDarkModeResponse, toggleColorMode);
   }, [colorMode, setDarkModeResponse, toggleColorMode]);
 
-  const renderDarkModeIcon = useCallback((response) => {
-    if (response?.darkModeError) {
-      return (
-        <Tooltip label={response?.darkModeMsg}>
-          <WarningIcon color="red" h="6" ml="3" w="6" />
-        </Tooltip>
-      );
-    }
-    return colorMode === "dark"
-      ? <MoonIcon h="6" ml="3" w="6" />
-      : <SunIcon h="6" ml="3" w="6" />;
-  }, [colorMode]);
+  const renderDarkModeIcon = useCallback(
+    response => {
+      if (response?.darkModeError) {
+        return (
+          <Tooltip label={response?.darkModeMsg}>
+            <WarningIcon color="red" h="6" ml="3" w="6" />
+          </Tooltip>
+        );
+      }
+      return colorMode === 'dark' ? <MoonIcon h="6" ml="3" w="6" /> : <SunIcon h="6" ml="3" w="6" />;
+    },
+    [colorMode],
+  );
 
   const [passwordResponse, setPasswordResponse] = useState(null);
   const [showOldPassword, setShowOldPassword] = useState(false);
@@ -121,8 +122,10 @@ const Settings = () => {
           </form>
         </Box>
       </Stack>
-      {passwordResponse?.settingsMsg && (
-        <Box color={passwordResponse?.settingsError ? 'red' : 'green'}>{passwordResponse?.settingsMsg}</Box>
+      {passwordResponse?.passwordMsg && (
+        <Box color={passwordResponse?.passwordError ? 'red.500' : 'green.500'} mt="2">
+          {passwordResponse?.passwordMsg}
+        </Box>
       )}
     </Flex>
   );
