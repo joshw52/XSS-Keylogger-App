@@ -1,6 +1,6 @@
 # React and Flask Keylogger App
 
-This Proof-of-Concept application will allow a user to create XSS payloads for recording keystrokes, as well as view logs of recorded keystrokes sent from vulnerable web applications with the payload running.
+This Proof-of-Concept application will allow a user to create Cross-Site Scripting (XSS) payloads for recording keystrokes, as well as view logs of recorded keystrokes sent from vulnerable web applications with the payload running.
 
 ## Flask Server Setup
 
@@ -14,13 +14,13 @@ In `client`, run `npm install` then `npm run dev` to get the frontend installed 
 
 You will need to register a username and password at `/register`.  Then login at `/login` with the account you created.
 
-Here, there are currently three pages, `Logs`, `Payloads`, and `Settings`.  You can create Cross-Site Scripting payloads that will log keystrokes in the vulnerable page, as well as grab cookies, local storage, and session storage, and then send them back to the server.  Then you can view this information in the `Logs` page.
+Here, there are currently three pages, `Logs`, `Payloads`, and `Settings`.  You can create XSS payloads in the `Payloads` page that will log keystrokes in a vulnerable application, as well as grab cookies, local storage, and session storage, and then send them back to the server.  Then this information can be viewed in the `Logs` page.
 
 ## Logs Page
 
-View recorded keystrokes sent from a XSS payload to the server.  Each log will display the host, time of log, User Agent, keystrokes, cookies, and storage data (local and session storage).  You can filter by host or a search term, which will search through the keystrokes, cookies, local storage, and session storage data.
+The Logs page is where you can view recorded keystrokes sent from a XSS payload to the server.  Each log will display the host, time of log, User Agent, keystrokes, cookies, and storage data (local and session storage).  You can filter by host or a search term, which will search through the keystrokes, cookies, local storage, and session storage data.
 
-You can also click a row to view all of the keystrokes in a modal.  There's an option to process keystrokes, where `ENTER` characters will be converted to newlines, and for each `BACKSPACE`, a character will be deleted.  Below you can see an example of before processing keystrokes (left) and after (right).
+You can also click a row to view the keystrokes, cookies, and local and session storage data in a modal.  There's an option to process keystrokes, where `ENTER` characters will be converted to newlines, and for each `BACKSPACE`, a character will be deleted.  Below you can see an example of before processing keystrokes and after.
 
 <p float="left">
     <img src="./images/unprocessed_keystrokes.png" alt= “” height="250px">
