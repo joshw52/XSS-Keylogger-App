@@ -29,9 +29,9 @@ import LogModal, { parseKeystrokes } from './LogModal';
 const getLogs = setLogs =>
   axios.get(`/api/logs`, { withCredentials: true }).then(response => setLogs(response.data.logs));
 
-const getIPs = logs => uniq(logs?.map(({ ip }) => ip));
+const getHosts = logs => uniq(logs?.map(({ host }) => host));
 
-const filterLogs = (logs, ip) => logs.filter(log => (ip ? log.ip === ip : log));
+const filterLogs = (logs, host) => logs.filter(log => (host ? log.host === host : log));
 
 const processLogs = logs =>
   logs.map(log => ({
@@ -49,7 +49,7 @@ const Logs = () => {
 
   const [logs, setLogs] = useState([]);
   const [searchTerm, setSearchTerm] = useState(null);
-  const [selectedIp, setSelectedIp] = useState(null);
+  const [selectedHost, setSelectedHost] = useState(null);
   const [showDetails, setShowDetails] = useState(null);
 
   useEffect(() => {
@@ -59,26 +59,22 @@ const Logs = () => {
   const selectedLog = useMemo(() => showDetails && logs?.find(log => log.id === showDetails), [logs, showDetails]);
 
   const filteredLogs = useMemo(() => {
-    let filtered = filterLogs(logs, selectedIp);
+    let filtered = filterLogs(logs, selectedHost);
     if (searchTerm) {
       filtered = searchKeystrokes(filtered, searchTerm);
     }
     return processLogs(filtered);
-  }, [logs, searchTerm, selectedIp]);
+  }, [logs, searchTerm, selectedHost]);
 
   return (
     <Stack spacing='0'>
       {selectedLog && <LogModal selectedLog={selectedLog} setShowDetails={setShowDetails} showDetails={showDetails} />}
       <Card bg={logsHeaderBg} borderRadius='sm' direction={{ base: 'column', sm: 'row' }}>
         <CardBody>
-          <Select
-            bg={logsHeaderInputBg}
-            onChange={e => setSelectedIp(e.target.value)}
-            placeholder='Filter by IP address'
-          >
-            {getIPs(logs).map(ip => (
-              <option key={`ipOption/${ip}`} value={ip}>
-                {ip}
+          <Select bg={logsHeaderInputBg} onChange={e => setSelectedHost(e.target.value)} placeholder='Filter by Host'>
+            {getHosts(logs).map(host => (
+              <option key={`hostOption/${host}`} value={host}>
+                {host}
               </option>
             ))}
           </Select>
@@ -96,7 +92,7 @@ const Logs = () => {
         <Table>
           <Thead bg={logsTableHeaderInputBg} position='sticky' top={0}>
             <Tr>
-              <Th>IP</Th>
+              <Th>Host</Th>
               <Th>Date</Th>
               <Th>User Agent</Th>
               <Th>Keystrokes</Th>
@@ -106,15 +102,15 @@ const Logs = () => {
           </Thead>
           <Tbody>
             {filteredLogs.map(
-              ({ cookies, created_at, id, ip, keystrokes, local_storage, session_storage, user_agent }) => (
+              ({ cookies, created_at, host, id, keystrokes, local_storage, session_storage, user_agent }) => (
                 <Tr
-                  key={`log/${created_at}/${ip}`}
+                  key={`log/${created_at}/${host}`}
                   onClick={() => setShowDetails(id)}
                   sx={{
                     cursor: 'pointer',
                   }}
                 >
-                  <Td>{ip}</Td>
+                  <Td>{host}</Td>
                   <Td>{moment(created_at).format('MMM DD, YYYY hh:mm a')}</Td>
                   <Td>
                     <Text
@@ -122,7 +118,7 @@ const Logs = () => {
                         height: '75px',
                         overflowX: 'scroll',
                         whiteSpace: 'pre-line',
-                        width: '200px',
+                        width: '250px',
                       }}
                     >
                       {user_agent}

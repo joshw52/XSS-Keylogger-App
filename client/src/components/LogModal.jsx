@@ -70,7 +70,7 @@ const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
       <ModalOverlay />
       <ModalContent height='500px'>
         <ModalHeader>
-          {selectedLog.ip} - {moment(selectedLog.created_at).format('MMM DD, YYYY hh:mm a')}
+          {selectedLog.host} - {moment(selectedLog.created_at).format('MMM DD, YYYY hh:mm a')}
         </ModalHeader>
         <ModalBody overflowY='scroll'>
           <Tabs variant='soft-rounded' colorScheme='green'>
