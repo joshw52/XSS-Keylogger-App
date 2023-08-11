@@ -28,7 +28,12 @@ const DeletePayload = ({ currentPayload, fetchPayloads, setCurrentPayload }) => 
     <Popover closeOnBlur={true} isOpen={open} onClose={() => setOpen(false)} placement='left'>
       <PopoverTrigger>
         <Tooltip label='Delete Payload'>
-          <IconButton colorScheme='red' icon={<DeleteIcon />} marginLeft='15px' onClick={() => setOpen(true)} />
+          <IconButton
+            colorScheme='red'
+            icon={<DeleteIcon />}
+            marginLeft='15px'
+            onClick={() => setOpen(true)}
+          />
         </Tooltip>
       </PopoverTrigger>
       <PopoverContent>

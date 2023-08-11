@@ -25,7 +25,12 @@ const payloadNameValidation = {
   required: 'Name is required for new payload',
 };
 
-const NewPayloadModal = ({ fetchPayloads, newPayloadOpen, setCurrentPayload, setNewPayloadOpen }) => {
+const NewPayloadModal = ({
+  fetchPayloads,
+  newPayloadOpen,
+  setCurrentPayload,
+  setNewPayloadOpen,
+}) => {
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
@@ -60,7 +65,11 @@ const NewPayloadModal = ({ fetchPayloads, newPayloadOpen, setCurrentPayload, set
           <ModalHeader>Create New Payload</ModalHeader>
           <ModalBody overflowY='scroll'>
             <FormControl isInvalid={!!errors.payloadName}>
-              <Input {...register('payloadName', payloadNameValidation)} placeholder='New Payload Name' type='text' />
+              <Input
+                {...register('payloadName', payloadNameValidation)}
+                placeholder='New Payload Name'
+                type='text'
+              />
               <FormErrorMessage>{errors?.payloadName?.message}</FormErrorMessage>
             </FormControl>
           </ModalBody>

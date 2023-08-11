@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 
 import { CopyIcon } from '@chakra-ui/icons';
-import { IconButton, Popover, PopoverBody, PopoverContent, PopoverTrigger, Tooltip } from '@chakra-ui/react';
+import {
+  IconButton,
+  Popover,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Tooltip,
+} from '@chakra-ui/react';
 
 const CopyPayload = ({ copyPayloadToClipboard }) => {
   const [open, setOpen] = useState(false);

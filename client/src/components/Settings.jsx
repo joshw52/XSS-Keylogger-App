@@ -49,7 +49,11 @@ const Settings = () => {
           </Tooltip>
         );
       }
-      return colorMode === 'dark' ? <MoonIcon h='6' ml='3' w='6' /> : <SunIcon h='6' ml='3' w='6' />;
+      return colorMode === 'dark' ? (
+        <MoonIcon h='6' ml='3' w='6' />
+      ) : (
+        <SunIcon h='6' ml='3' w='6' />
+      );
     },
     [colorMode],
   );

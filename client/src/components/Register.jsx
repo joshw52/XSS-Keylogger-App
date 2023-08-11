@@ -54,7 +54,10 @@ const Register = () => {
   const [registerResponse, setRegisterResponse] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
 
-  const toggleShowPassword = useCallback(() => setShowPassword(!showPassword), [setShowPassword, showPassword]);
+  const toggleShowPassword = useCallback(
+    () => setShowPassword(!showPassword),
+    [setShowPassword, showPassword],
+  );
 
   return (
     <Flex alignItems='center' flexDirection='column' height='400px' justifyContent='center'>
@@ -63,7 +66,11 @@ const Register = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing='4'>
               <FormControl isInvalid={!!errors.username}>
-                <Input {...register('username', usernameValidation)} placeholder='Username' type='text' />
+                <Input
+                  {...register('username', usernameValidation)}
+                  placeholder='Username'
+                  type='text'
+                />
                 <FormErrorMessage>{errors?.username?.message}</FormErrorMessage>
               </FormControl>
               <FormControl isInvalid={!!errors.password}>

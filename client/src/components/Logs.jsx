@@ -42,13 +42,17 @@ const processLogs = logs =>
   }));
 
 const searchKeystrokes = (logs, searchTerm) =>
-  logs.filter(log => 
-    [
-      JSON.parse(atob(log.keystrokes)).join(''),
-      atob(log.cookies),
-      atob(log.local_storage),
-      atob(log.session_storage),
-    ].join('').toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+  logs.filter(
+    log =>
+      [
+        JSON.parse(atob(log.keystrokes)).join(''),
+        atob(log.cookies),
+        atob(log.local_storage),
+        atob(log.session_storage),
+      ]
+        .join('')
+        .toLowerCase()
+        .indexOf(searchTerm.toLowerCase()) > -1,
   );
 
 const Logs = () => {
@@ -65,7 +69,10 @@ const Logs = () => {
     getLogs(setLogs);
   }, []);
 
-  const selectedLog = useMemo(() => showDetails && logs?.find(log => log.id === showDetails), [logs, showDetails]);
+  const selectedLog = useMemo(
+    () => showDetails && logs?.find(log => log.id === showDetails),
+    [logs, showDetails],
+  );
 
   const filteredLogs = useMemo(() => {
     let filtered = filterLogs(logs, selectedHost);
@@ -77,10 +84,20 @@ const Logs = () => {
 
   return (
     <Stack spacing='0'>
-      {selectedLog && <LogModal selectedLog={selectedLog} setShowDetails={setShowDetails} showDetails={showDetails} />}
+      {selectedLog && (
+        <LogModal
+          selectedLog={selectedLog}
+          setShowDetails={setShowDetails}
+          showDetails={showDetails}
+        />
+      )}
       <Card bg={logsHeaderBg} borderRadius='sm' direction={{ base: 'column', sm: 'row' }}>
         <CardBody>
-          <Select bg={logsHeaderInputBg} onChange={e => setSelectedHost(e.target.value)} placeholder='Filter by Host'>
+          <Select
+            bg={logsHeaderInputBg}
+            onChange={e => setSelectedHost(e.target.value)}
+            placeholder='Filter by Host'
+          >
             {getHosts(logs).map(host => (
               <option key={`hostOption/${host}`} value={host}>
                 {host}
@@ -111,7 +128,16 @@ const Logs = () => {
           </Thead>
           <Tbody>
             {filteredLogs.map(
-              ({ cookies, created_at, host, id, keystrokes, local_storage, session_storage, user_agent }) => (
+              ({
+                cookies,
+                created_at,
+                host,
+                id,
+                keystrokes,
+                local_storage,
+                session_storage,
+                user_agent,
+              }) => (
                 <Tr
                   key={`log/${created_at}/${host}`}
                   onClick={() => setShowDetails(id)}
@@ -122,7 +148,13 @@ const Logs = () => {
                   <Td>{host}</Td>
                   <Td>{moment(created_at).format('MMM DD, YYYY hh:mm a')}</Td>
                   <Td>
-                    <Flex alignItems='center' flexDirection='row' height='75px' justifyContent='center' width='250px'>
+                    <Flex
+                      alignItems='center'
+                      flexDirection='row'
+                      height='75px'
+                      justifyContent='center'
+                      width='250px'
+                    >
                       <Text
                         style={{
                           height: '100%',
@@ -136,7 +168,13 @@ const Logs = () => {
                     </Flex>
                   </Td>
                   <Td>
-                    <Flex alignItems='center' flexDirection='row' height='75px' justifyContent='center' width='300px'>
+                    <Flex
+                      alignItems='center'
+                      flexDirection='row'
+                      height='75px'
+                      justifyContent='center'
+                      width='300px'
+                    >
                       <Text
                         style={{
                           height: '100%',

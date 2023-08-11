@@ -34,7 +34,9 @@ const getPayloads = (setPayloads, setCurrentPayload) =>
   });
 
 const savePayload = (payloadId, payloadData, fetchPayloads) =>
-  axios.put(`/api/payloads/${payloadId}`, payloadData, { withCredentials: true }).then(() => fetchPayloads());
+  axios
+    .put(`/api/payloads/${payloadId}`, payloadData, { withCredentials: true })
+    .then(() => fetchPayloads());
 
 const Payload = () => {
   const { colorMode } = useColorMode();
@@ -54,7 +56,10 @@ const Payload = () => {
   const [newPayloadOpen, setNewPayloadOpen] = useState(false);
   const [payloads, setPayloads] = useState([]);
 
-  const fetchPayloads = useCallback(() => getPayloads(setPayloads, setCurrentPayload), [setCurrentPayload]);
+  const fetchPayloads = useCallback(
+    () => getPayloads(setPayloads, setCurrentPayload),
+    [setCurrentPayload],
+  );
 
   useEffect(() => {
     fetchPayloads();
@@ -101,7 +106,9 @@ const Payload = () => {
             <FormLabel>Select a Payload to Edit</FormLabel>
             <Select
               bg={optionsInputBg}
-              onChange={e => setCurrentPayload(payloads.find(p => Number(p.id) === Number(e.target.value)))}
+              onChange={e =>
+                setCurrentPayload(payloads.find(p => Number(p.id) === Number(e.target.value)))
+              }
               placeholder='- Select a Payload -'
               value={currentPayload?.id}
             >
@@ -149,15 +156,29 @@ const Payload = () => {
             </>
           ) : (
             <Tooltip label='New Payload'>
-              <IconButton colorScheme='green' icon={<AddIcon />} onClick={() => setNewPayloadOpen(true)} />
+              <IconButton
+                colorScheme='green'
+                icon={<AddIcon />}
+                onClick={() => setNewPayloadOpen(true)}
+              />
             </Tooltip>
           )}
         </Box>
-        <Box display='flex' flexDirection='row' justifyContent='flex-end' alignItems='flex-end' padding='20px'>
+        <Box
+          display='flex'
+          flexDirection='row'
+          justifyContent='flex-end'
+          alignItems='flex-end'
+          padding='20px'
+        >
           {currentPayload && (
             <>
               <Tooltip label='New Payload'>
-                <IconButton colorScheme='green' icon={<AddIcon />} onClick={() => setNewPayloadOpen(true)} />
+                <IconButton
+                  colorScheme='green'
+                  icon={<AddIcon />}
+                  onClick={() => setNewPayloadOpen(true)}
+                />
               </Tooltip>
               <PayloadInfo />
               <SavePayload updatePayload={updatePayload} />

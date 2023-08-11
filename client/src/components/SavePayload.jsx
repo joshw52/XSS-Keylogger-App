@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import { MdSave } from 'react-icons/md';
 
-import { Icon, IconButton, Popover, PopoverBody, PopoverContent, PopoverTrigger, Tooltip } from '@chakra-ui/react';
+import {
+  Icon,
+  IconButton,
+  Popover,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Tooltip,
+} from '@chakra-ui/react';
 
 const CopyPayload = ({ updatePayload }) => {
   const [open, setOpen] = useState(false);

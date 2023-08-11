@@ -86,7 +86,10 @@ const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
 
   const [processKeys, setProcessKeys] = useState(false);
 
-  const toggleProcessKeys = useCallback(() => setProcessKeys(!processKeys), [processKeys, setProcessKeys]);
+  const toggleProcessKeys = useCallback(
+    () => setProcessKeys(!processKeys),
+    [processKeys, setProcessKeys],
+  );
 
   const processedKeys = useMemo(
     () => selectedLog?.keystrokes && parseKeystrokes(selectedLog?.keystrokes, processKeys),
@@ -94,7 +97,12 @@ const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
   );
 
   return (
-    <Modal blockScrollOnMount={false} isCentered isOpen={showDetails} onClose={() => setShowDetails(null)}>
+    <Modal
+      blockScrollOnMount={false}
+      isCentered
+      isOpen={showDetails}
+      onClose={() => setShowDetails(null)}
+    >
       <ModalOverlay />
       <ModalContent height='600px' maxWidth='800px'>
         <ModalHeader>

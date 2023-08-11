@@ -7,7 +7,9 @@ const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const onAuthCheck = () =>
-    axios.get('/api/auth', { withCredentials: true }).then(res => setLoggedIn(res.data.isAuthenticated));
+    axios
+      .get('/api/auth', { withCredentials: true })
+      .then(res => setLoggedIn(res.data.isAuthenticated));
 
   useEffect(() => {
     onAuthCheck();
@@ -24,7 +26,8 @@ const AuthProvider = ({ children }) => {
         setLoginResponse(res.data);
       });
 
-  const onLogout = () => axios.post('/api/logout', { withCredentials: true }).then(() => setLoggedIn(false));
+  const onLogout = () =>
+    axios.post('/api/logout', { withCredentials: true }).then(() => setLoggedIn(false));
 
   const loggedInContextValues = {
     loggedIn,
