@@ -9,6 +9,8 @@ import { MdCookie, MdStorage } from 'react-icons/md';
 import {
   Card,
   CardBody,
+  Center,
+  Flex,
   Icon,
   Input,
   Select,
@@ -113,31 +115,47 @@ const Logs = () => {
                   <Td>{host}</Td>
                   <Td>{moment(created_at).format('MMM DD, YYYY hh:mm a')}</Td>
                   <Td>
-                    <Text
-                      style={{
-                        height: '75px',
-                        overflowX: 'scroll',
-                        whiteSpace: 'pre-line',
-                        width: '250px',
-                      }}
-                    >
-                      {user_agent}
-                    </Text>
+                    <Flex alignItems='center' flexDirection='row' height='75' justifyContent='center' width='250'>
+                      <Text
+                        style={{
+                          height: '100%',
+                          overflowX: 'hidden',
+                          whiteSpace: 'pre-line',
+                          width: '250px',
+                        }}
+                      >
+                        {user_agent}
+                      </Text>
+                    </Flex>
                   </Td>
                   <Td>
-                    <Text
-                      style={{
-                        height: '75px',
-                        overflowX: 'scroll',
-                        whiteSpace: 'pre-line',
-                        width: '300px',
-                      }}
-                    >
-                      {keystrokes}
-                    </Text>
+                    <Flex alignItems='center' flexDirection='row' height='75' justifyContent='center' width='300px'>
+                      <Text
+                        style={{
+                          height: '100%',
+                          overflowX: 'hidden',
+                          whiteSpace: 'pre-line',
+                          width: '300px',
+                        }}
+                      >
+                        {keystrokes}
+                      </Text>
+                    </Flex>
                   </Td>
-                  <Td>{cookies && <Icon as={MdCookie} />}</Td>
-                  <Td>{(local_storage || session_storage) && <Icon as={MdStorage} />}</Td>
+                  <Td>
+                    {cookies && (
+                      <Center>
+                        <Icon as={MdCookie} />
+                      </Center>
+                    )}
+                  </Td>
+                  <Td>
+                    {(local_storage || session_storage) && (
+                      <Center>
+                        <Icon as={MdStorage} />
+                      </Center>
+                    )}
+                  </Td>
                 </Tr>
               ),
             )}
