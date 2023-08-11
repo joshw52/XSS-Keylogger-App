@@ -42,7 +42,14 @@ const processLogs = logs =>
   }));
 
 const searchKeystrokes = (logs, searchTerm) =>
-  logs.filter(log => JSON.parse(atob(log.keystrokes)).join('').toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+  logs.filter(log => 
+    [
+      JSON.parse(atob(log.keystrokes)).join(''),
+      atob(log.cookies),
+      atob(log.local_storage),
+      atob(log.session_storage),
+    ].join('').toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+  );
 
 const Logs = () => {
   const logsHeaderBg = useColorModeValue('gray.300', 'gray.700');
