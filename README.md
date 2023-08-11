@@ -35,7 +35,7 @@ The JavaScript payload will need to record keystrokes into an array, stringify t
 
 To send cookies, base64 encode `document.cookie`, and to send local and session storage, stringify and base64 encode each.
 
-Below is an example of what the data should look like:
+Below is an example of what the data should look like when the script sends the recorded data to the server:
 ```
 {
     "cookies": "dGVzdD10ZXN0OyB0ZXN0Mj1oYWtrZA==",  // decoded: 'test=test; test2=hakkd'
