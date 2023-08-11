@@ -23,8 +23,8 @@ View recorded keystrokes sent from a XSS payload to the server.  Each log will d
 You can also click a row to view all of the keystrokes in a modal.  There's an option to process keystrokes, where `ENTER` characters will be converted to newlines, and for each `BACKSPACE`, a character will be deleted.  Below you can see an example of before processing keystrokes (left) and after (right).
 
 <p float="left">
-    <img src="./images/unprocessed_keystrokes.png" alt= “” height="300px">
-    <img src="./images/processed_keystrokes.png" alt= “” height="300px">
+    <img src="./images/unprocessed_keystrokes.png" alt= “” height="250px">
+    <img src="./images/processed_keystrokes.png" alt= “” height="250px">
 </p>
 
 ## Payloads Page
