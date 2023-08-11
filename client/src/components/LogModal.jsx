@@ -18,12 +18,19 @@ import {
   ModalHeader,
   ModalOverlay,
   Tab,
+  Table,
   Tabs,
+  TableContainer,
   TabList,
   TabPanel,
   TabPanels,
+  Tbody,
+  Td,
   Text,
+  Th,
+  Thead,
   Tooltip,
+  Tr,
   useColorModeValue,
 } from '@chakra-ui/react';
 import moment from 'moment-timezone';
@@ -53,6 +60,27 @@ export const parseKeystrokes = (keystrokes, processKeys = false) => {
   );
 };
 
+const displayStorage = storage => (
+  <TableContainer>
+    <Table variant='simple'>
+      <Thead>
+        <Tr>
+          <Th>Key</Th>
+          <Th>Value</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        {Object.entries(JSON.parse(atob(storage))).map(([key, value]) => (
+          <Tr>
+            <Td>{key}</Td>
+            <Td>{value}</Td>
+          </Tr>
+        ))}
+      </Tbody>
+    </Table>
+  </TableContainer>
+);
+
 const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
   const logsModalTextBg = useColorModeValue('gray.200', 'gray.600');
 
@@ -66,9 +94,9 @@ const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
   );
 
   return (
-    <Modal blockScrollOnMount={false} isCentered isOpen={showDetails} onClose={() => setShowDetails(null)} size='lg'>
+    <Modal blockScrollOnMount={false} isCentered isOpen={showDetails} onClose={() => setShowDetails(null)}>
       <ModalOverlay />
-      <ModalContent height='500px'>
+      <ModalContent height='600px' maxWidth='800px'>
         <ModalHeader>
           {selectedLog.host} - {moment(selectedLog.created_at).format('MMM DD, YYYY hh:mm a')}
         </ModalHeader>
@@ -85,9 +113,15 @@ const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
                   <Icon as={MdCookie} />
                 </Tab>
               )}
-              {(selectedLog.local_storage || selectedLog.session_storage) && (
+              {selectedLog.local_storage && (
                 <Tab>
-                  Storage &nbsp;
+                  Local Storage &nbsp;
+                  <Icon as={MdStorage} />
+                </Tab>
+              )}
+              {selectedLog.session_storage && (
+                <Tab>
+                  Session Storage &nbsp;
                   <Icon as={MdStorage} />
                 </Tab>
               )}
@@ -115,31 +149,31 @@ const LogModal = ({ selectedLog, setShowDetails, showDetails }) => {
                   </Box>
                 </TabPanel>
               )}
-              {(selectedLog.local_storage || selectedLog.session_storage) && (
+              {selectedLog.local_storage && (
                 <TabPanel>
                   {selectedLog.local_storage && (
-                    <>
-                      <Heading as='h4' size='md'>
+                    <Box>
+                      <Heading as='h4' mb='3' size='md'>
                         Local Storage
                       </Heading>
                       <Box borderRadius='md' bg={logsModalTextBg} p='10px'>
-                        <Text mb='1rem' style={{ whiteSpace: 'pre-line' }}>
-                          {atob(selectedLog.local_storage)}
-                        </Text>
+                        {displayStorage(selectedLog.local_storage)}
                       </Box>
-                    </>
+                    </Box>
                   )}
+                </TabPanel>
+              )}
+              {selectedLog.session_storage && (
+                <TabPanel>
                   {selectedLog.session_storage && (
-                    <>
-                      <Heading as='h4' size='md'>
+                    <Box>
+                      <Heading as='h4' mb='3' size='md'>
                         Session Storage
                       </Heading>
                       <Box borderRadius='md' bg={logsModalTextBg} p='10px'>
-                        <Text mb='1rem' style={{ whiteSpace: 'pre-line' }}>
-                          {atob(selectedLog.session_storage)}
-                        </Text>
+                        {displayStorage(selectedLog.session_storage)}
                       </Box>
-                    </>
+                    </Box>
                   )}
                 </TabPanel>
               )}

@@ -46,7 +46,7 @@ const searchKeystrokes = (logs, searchTerm) =>
 
 const Logs = () => {
   const logsHeaderBg = useColorModeValue('gray.300', 'gray.700');
-  const logsHeaderInputBg = useColorModeValue('gray.100', 'gray.500');
+  const logsHeaderInputBg = useColorModeValue('gray.100', 'gray.600');
   const logsTableHeaderInputBg = useColorModeValue('gray.200', 'gray.600');
 
   const [logs, setLogs] = useState([]);
@@ -115,11 +115,11 @@ const Logs = () => {
                   <Td>{host}</Td>
                   <Td>{moment(created_at).format('MMM DD, YYYY hh:mm a')}</Td>
                   <Td>
-                    <Flex alignItems='center' flexDirection='row' height='75' justifyContent='center' width='250'>
+                    <Flex alignItems='center' flexDirection='row' height='75px' justifyContent='center' width='250px'>
                       <Text
                         style={{
                           height: '100%',
-                          overflowX: 'hidden',
+                          overflowX: 'scroll',
                           whiteSpace: 'pre-line',
                           width: '250px',
                         }}
@@ -129,11 +129,11 @@ const Logs = () => {
                     </Flex>
                   </Td>
                   <Td>
-                    <Flex alignItems='center' flexDirection='row' height='75' justifyContent='center' width='300px'>
+                    <Flex alignItems='center' flexDirection='row' height='75px' justifyContent='center' width='300px'>
                       <Text
                         style={{
                           height: '100%',
-                          overflowX: 'hidden',
+                          overflowX: 'scroll',
                           whiteSpace: 'pre-line',
                           width: '300px',
                         }}
