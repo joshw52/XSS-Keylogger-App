@@ -23,6 +23,7 @@ import Editor from '@monaco-editor/react';
 
 import CopyPayload from './CopyPayload';
 import DeletePayload from './DeletePayload';
+import DownloadPayload from './DownloadPayload';
 import NewPayloadModal from './NewPayloadModal';
 import PayloadInfo from './PayloadInfo';
 import SavePayload from './SavePayload';
@@ -183,6 +184,7 @@ const Payload = () => {
               <PayloadInfo />
               <SavePayload updatePayload={updatePayload} />
               <CopyPayload copyPayloadToClipboard={copyPayloadToClipboard} />
+              <DownloadPayload payload={currentPayload} />
               <DeletePayload
                 currentPayload={currentPayload}
                 fetchPayloads={fetchPayloads}

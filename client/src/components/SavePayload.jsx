@@ -11,14 +11,10 @@ import {
   Tooltip,
 } from '@chakra-ui/react';
 
+import { delayedClosePopover } from '../helpers';
+
 const CopyPayload = ({ updatePayload }) => {
   const [open, setOpen] = useState(false);
-
-  const delayedClosePopover = () => {
-    setTimeout(() => {
-      setOpen(false);
-    }, [5000]);
-  };
 
   return (
     <Popover closeOnBlur={true} isOpen={open} onClose={() => setOpen(false)} placement='bottom'>
@@ -30,8 +26,7 @@ const CopyPayload = ({ updatePayload }) => {
             marginLeft='15px'
             onClick={() => {
               updatePayload();
-              setOpen(true);
-              delayedClosePopover();
+              delayedClosePopover(setOpen);
             }}
           />
         </Tooltip>
