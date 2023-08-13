@@ -53,7 +53,7 @@ const Payload = () => {
   };
 
   const [currentPayload, setCurrentPayload] = useState(null);
-  const [fontSize, setFontSize] = useState(14);
+  const [fontSize, setFontSize] = useState(localStorage.getItem('payloadFontSize') || '14');
   const [newPayloadOpen, setNewPayloadOpen] = useState(false);
   const [payloads, setPayloads] = useState([]);
 
@@ -144,7 +144,11 @@ const Payload = () => {
                   bg={optionsInputBg}
                   borderRadius='md'
                   max={30}
-                  onChange={valueString => setFontSize(valueString.replace(/^\$/, ''))}
+                  onChange={valueString => {
+                    const updatedValue = valueString.replace(/^\$/, '');
+                    setFontSize(updatedValue);
+                    localStorage.setItem('payloadFontSize', updatedValue);
+                  }}
                   value={fontSize}
                 >
                   <NumberInputField />
@@ -203,6 +207,7 @@ const Payload = () => {
             onMount={handleEditorDidMount}
             options={{
               fontSize,
+              minimap: { enabled: false },
             }}
             theme={colorMode === 'dark' ? 'vs-dark' : 'light'}
             value={currentPayload?.payload}
