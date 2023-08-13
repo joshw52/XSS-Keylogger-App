@@ -2,6 +2,7 @@ import React from 'react';
 
 import { InfoIcon } from '@chakra-ui/icons';
 import {
+  Box,
   Code,
   IconButton,
   Popover,
@@ -11,13 +12,18 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  Tooltip,
 } from '@chakra-ui/react';
 
 const PayloadInfo = () => (
   <Popover>
-    <PopoverTrigger>
-      <IconButton colorScheme='purple' icon={<InfoIcon />} marginLeft='15px' />
-    </PopoverTrigger>
+    <Tooltip label='Information'>
+      <Box display='inline-block' marginLeft='15px'>
+        <PopoverTrigger>
+          <IconButton colorScheme='purple' icon={<InfoIcon />} />
+        </PopoverTrigger>
+      </Box>
+    </Tooltip>
     <PopoverContent width='600px'>
       <PopoverArrow />
       <PopoverCloseButton />
