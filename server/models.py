@@ -37,6 +37,7 @@ class Payload(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, unique=True, nullable=False)
     payload = db.Column(db.Text, unique=False, nullable=False)
+    transformed_payload = db.Column(db.Text, unique=False, nullable=True, default=True)
 
     def __repr__(self):
         return '<Payload %r>' % self.name
