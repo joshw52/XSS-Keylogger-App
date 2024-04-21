@@ -66,8 +66,8 @@ def register_post():
             }
         else:
             created_user = User(
-                username=req_data["username"],
                 password=bcrypt.generate_password_hash(req_data["password"]),
+                username=req_data["username"],
             )
             db.session.add(created_user)
             db.session.commit()
@@ -165,9 +165,9 @@ def payloads_post():
         db.session.commit()
 
         response = {
+            "payloadAddData": payload.serialize,
             "payloadAddError": False,
             "payloadAddMsg": "Payload created",
-            "payloadAddData": payload.serialize,
         }
     except:
         db.session.rollback()
