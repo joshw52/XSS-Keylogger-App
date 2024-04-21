@@ -26,7 +26,9 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
-import LogModal, { parseKeystrokes } from './LogModal';
+import { parseKeystrokes } from '../helpers';
+
+import LogModal from './LogModal';
 
 const getLogs = setLogs =>
   axios.get(`/api/logs`, { withCredentials: true }).then(response => setLogs(response.data.logs));
