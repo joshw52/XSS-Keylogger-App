@@ -2,13 +2,9 @@
 
 This Proof-of-Concept application will allow a user to create Cross-Site Scripting (XSS) payloads for recording keystrokes, as well as view logs of recorded keystrokes sent from vulnerable web applications with the payload running.
 
-## Flask Server Setup
+## App Setup
 
-In `server`, run `bash run.sh` to set up and run the server.
-
-## React Client Setup
-
-In `client`, run `npm install` then `npm run dev` to get the frontend installed and running.
+Just run `docker-compose up --build`, and access the application at `http://localhost:5173`.
 
 ## Basic App Usage
 
