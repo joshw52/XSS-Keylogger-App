@@ -266,3 +266,8 @@ def change_password_put():
         }
 
     return jsonify(response)
+
+@app.get("/api/health")
+def health_check():
+    """Health check endpoint for Docker"""
+    return jsonify({"status": "healthy", "message": "Server is running"})

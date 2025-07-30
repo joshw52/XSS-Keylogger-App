@@ -1,0 +1,42 @@
+# Production Docker Compose file for XSS Keylogger App
+version: '3.8'
+
+services:
+  # Flask API Server
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      # Only mount the database directory to persist data
+      - server_data:/app/instance
+    environment:
+      - FLASK_APP=routes.py
+      - FLASK_ENV=production
+      - FLASK_DEBUG=0
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"] 
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # React Client
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_URL=http://localhost:5000
+    depends_on:
+      - server
+    restart: unless-stopped
+
+volumes:
+  # Persistent volume for SQLite database
+  server_data:

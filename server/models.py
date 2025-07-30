@@ -54,7 +54,7 @@ class Payload(db.Model):
 class User(db.Model):
     __tablename__ = "user"
     
-    dark_mode = db.Column(db.Boolean, default=False, nullable=False)
+    dark_mode = db.Column(db.Boolean, default=True, nullable=False)
     id = db.Column(db.Integer, primary_key=True)
     password = db.Column(db.String(200), unique=True, nullable=False)
     username = db.Column(db.String(100), unique=True, nullable=False)

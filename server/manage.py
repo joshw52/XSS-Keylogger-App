@@ -1,3 +1,4 @@
+import os
 from flask_migrate import init, migrate, stamp, upgrade
 
 from app import create_app, db
@@ -8,8 +9,12 @@ def deploy():
 	app.app_context().push()
 	db.create_all()
 
-	init()
-	stamp()
+	# Only initialize migrations if the directory doesn't exist
+	migrations_dir = os.path.join(os.getcwd(), 'migrations')
+	if not os.path.exists(migrations_dir):
+		init()
+		stamp()
+	
 	migrate()
 	upgrade()
 	
