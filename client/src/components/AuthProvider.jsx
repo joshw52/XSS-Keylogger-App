@@ -25,7 +25,8 @@ const AuthProvider = ({ children }) => {
       .then(res => {
         setLoggedIn(res.status <= 400);
         setLoginResponse(res.data);
-      }).catch(error => {
+      })
+      .catch(error => {
         setLoggedIn(false);
         if (error.response && error.response.data) {
           setLoginResponse({

@@ -7,9 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint ./ --ignore-path .gitignore",
-    "lint:fix": "npm run lint -- --fix",
-    "format": "npx prettier --write ."
+    "lint": "eslint . --fix",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.2.4",

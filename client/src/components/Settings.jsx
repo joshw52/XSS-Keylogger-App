@@ -22,15 +22,42 @@ import {
 } from '@chakra-ui/react';
 
 const updateDarkMode = (data, setDarkModeResponse, toggleDarkMode) =>
-  axios.put(`/api/darkmode`, data, { withCredentials: true }).then(response => {
-    setDarkModeResponse(response.data);
-    toggleDarkMode();
-  });
+  axios
+    .put(`/api/darkmode`, data, { withCredentials: true })
+    .then(response => {
+      setDarkModeResponse({
+        ...response.data,
+        darkModeError: response.status >= 400,
+      });
+      toggleDarkMode();
+    })
+    .catch(() =>
+      setDarkModeResponse({
+        darkModeError: true,
+        darkModeMsg: 'Error updating dark mode',
+      }),
+    );
 
 const updatePassword = (data, setUpdatePasswordMsg) =>
   axios
     .put(`/api/change-password`, data, { withCredentials: true })
-    .then(response => setUpdatePasswordMsg(response.data));
+    .then(response =>
+      setUpdatePasswordMsg({
+        ...response.data,
+        passwordError: response.status >= 400,
+      }),
+    )
+    .catch(error =>
+      error.response && error.response.data
+        ? setUpdatePasswordMsg({
+            ...error.response.data,
+            passwordError: true,
+          })
+        : setUpdatePasswordMsg({
+            passwordError: true,
+            passwordMsg: 'Network error. Please try again.',
+          }),
+    );
 
 const Settings = () => {
   const { colorMode, toggleColorMode } = useColorMode();

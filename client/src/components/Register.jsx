@@ -23,18 +23,22 @@ const onRegister = ({ password, username }, setRegisterResponse) =>
       password,
       username,
     })
-    .then(res => setRegisterResponse({
-      ...res.data,
-      registerError: false,
-    }))
-    .catch(error => error.response && error.response.data
-      ? setRegisterResponse({
-        ...error.response.data,
-        registerError: true,
-      }) : setRegisterResponse({
-        registerError: true,
-        registerMsg: 'Network error. Please try again.',
-      })
+    .then(res =>
+      setRegisterResponse({
+        ...res.data,
+        registerError: false,
+      }),
+    )
+    .catch(error =>
+      error.response && error.response.data
+        ? setRegisterResponse({
+            ...error.response.data,
+            registerError: true,
+          })
+        : setRegisterResponse({
+            registerError: true,
+            registerMsg: 'Network error. Please try again.',
+          }),
     );
 
 const passwordValidation = {

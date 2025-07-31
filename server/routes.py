@@ -208,71 +208,50 @@ def payloads_put(payload_id=None):
 @app.put("/api/darkmode")
 @jwt_required()
 def dark_mode_put():
-    req_data = json.loads(request.data)
-    current_user = get_jwt_identity()
-
     try:
+        req_data = json.loads(request.data)
+        current_user = get_jwt_identity()
         dark_mode = req_data['darkMode']
+
         user = User.query.filter_by(username=current_user).first()
         user.dark_mode = dark_mode
+        
         db.session.commit()
-
-        response = {
-            "darkModeError": False,
-            "darkModeMsg": "dark" if user.dark_mode else "light",
-        }
+        return jsonify({ "darkModeMsg": "dark" if user.dark_mode else "light" }), 200
 
     except:
         db.session.rollback()
-        response = {
-            "darkModeError": True,
-            "darkModeMsg": "Error updating dark mode",
-        }
-
-    return jsonify(response)
+        return jsonify({ "darkModeMsg": "Error updating dark mode" }), 500
 
 @app.put("/api/change-password")
 @jwt_required()
 def change_password_put():
-    req_data = json.loads(request.data)
-    current_user = get_jwt_identity()
-
     try:
+        req_data = json.loads(request.data)
+        current_user = get_jwt_identity()
         old_password = req_data['oldPassword']
         new_password = req_data['newPassword']
 
         user = User.query.filter_by(username=current_user).first()
         if user and not check_password_hash(user.password, old_password):
-            response = {
-                "passwordError": True,
-                "passwordMsg": "Old password is incorrect",
-            }
+            return jsonify({ "passwordMsg": "Old password is incorrect" }), 401
 
         elif len(new_password) < 8:
-            response = {
-                "passwordError": True,
-                "passwordMsg": "Password should be at least 8 characters long",
-            }
+            return jsonify({ "passwordMsg": "Password should be at least 8 characters long" }), 400
 
         else:
             user.password = bcrypt.generate_password_hash(new_password)
             db.session.commit()
-
-            response = {
-                "passwordError": False,
-                "passwordMsg": "Password updated",
-            }
+            return jsonify({ "passwordMsg": "Password updated" }), 200
 
     except:
         db.session.rollback()
-        response = {
-            "passwordError": True,
-            "passwordMsg": "Error updating settings",
-        }
-
-    return jsonify(response)
+        return jsonify({ "passwordMsg": "Error updating settings" }), 500
 
 @app.get("/api/health")
 def health_check():
     """Health check endpoint for Docker"""
-    return jsonify({"status": "healthy", "message": "Server is running"})
+    try:
+        return jsonify({"status": "healthy", "message": "Server is running"}), 200
+    except:
+        return jsonify({"status": "unhealthy", "message": "Server is down"}), 500
