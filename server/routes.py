@@ -118,14 +118,15 @@ def login_post():
 @jwt_required()
 def auth_get():
     current_user = get_jwt_identity()
-    return jsonify({ "isAuthenticated": current_user is not None })
+    status = 200 if current_user is not None else 401
+    return jsonify({ "isAuthenticated": current_user is not None }), status
 
 @app.post("/api/logout")
 @jwt_required()
 def logout_post():
     response = jsonify({ "logoutMsg": "Logout successful" })
     unset_jwt_cookies(response)
-    return response
+    return response, 200
 
 @app.delete("/api/payloads/<payload_id>")
 @jwt_required()

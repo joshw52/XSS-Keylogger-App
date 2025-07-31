@@ -9,7 +9,8 @@ const AuthProvider = ({ children }) => {
   const onAuthCheck = () =>
     axios
       .get('/api/auth', { withCredentials: true })
-      .then(res => setLoggedIn(res.data.isAuthenticated));
+      .then(res => setLoggedIn(res.data.isAuthenticated))
+      .catch(() => setLoggedIn(false));
 
   useEffect(() => {
     onAuthCheck();
