@@ -56,40 +56,44 @@ def logging_post():
 
 @app.post("/api/register")
 def register_post():
-    req_data = json.loads(request.data)
-
     try:
-        if len(req_data["password"]) < 8:
-            response = {
-                "registerError": True,
-                "registerMsg": "Password should be at least 8 characters long",
-            }
-        else:
-            created_user = User(
-                password=bcrypt.generate_password_hash(req_data["password"]),
-                username=req_data["username"],
-            )
-            db.session.add(created_user)
-            db.session.commit()
+        req_data = json.loads(request.data)
+        username = req_data.get("username", "").strip()
+        password = req_data.get("password", "").strip()
 
-            response = {
-                "registerError": False,
-                "registerMsg": "Account created",
-            }
+        if not username or not password:
+            return jsonify({
+                "registerMsg": "Username and password are required"
+            }), 400
+
+        if len(username) < 4:
+            return jsonify({
+                "registerMsg": "Username should be at least 4 characters long"
+            }), 400
+
+        if len(password) < 8:
+            return jsonify({
+                "registerMsg": "Password should be at least 8 characters long"
+            }), 400
+
+        created_user = User(
+            password=bcrypt.generate_password_hash(password),
+            username=username,
+        )
+        db.session.add(created_user)
+        db.session.commit()
+
+        return jsonify({ "registerMsg": "Account created" }), 201
+
     except IntegrityError:
         db.session.rollback()
-        response = {
-            "registerError": True,
-            "registerMsg": "Username exists",
-        }
-    except:
+        return jsonify({ "registerMsg": "Username exists" }), 409
+
+    except Exception:
         db.session.rollback()
-        response = {
-            "registerError": True,
-            "registerMsg": "Internal Server Error: couldn't create account",
-        }
-    
-    return jsonify(response)
+        return jsonify({
+            "registerMsg": "Internal Server Error: couldn't create account"
+        }), 500
 
 @app.post("/api/login")
 def login_post():

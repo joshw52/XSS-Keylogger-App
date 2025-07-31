@@ -23,13 +23,23 @@ const onRegister = ({ password, username }, setRegisterResponse) =>
       password,
       username,
     })
-    .then(res => {
-      setRegisterResponse(res.data);
-    });
+    .then(res => setRegisterResponse({
+      ...res.data,
+      registerError: false,
+    }))
+    .catch(error => error.response && error.response.data
+      ? setRegisterResponse({
+        ...error.response.data,
+        registerError: true,
+      }) : setRegisterResponse({
+        registerError: true,
+        registerMsg: 'Network error. Please try again.',
+      })
+    );
 
 const passwordValidation = {
   minLength: {
-    message: 'Passwords should be at least 8 characters long',
+    message: 'Password should be at least 8 characters long',
     value: 8,
   },
   required: 'Password is required',
@@ -37,7 +47,7 @@ const passwordValidation = {
 
 const usernameValidation = {
   minLength: {
-    message: 'Usernames should be at least 4 characters long',
+    message: 'Username should be at least 4 characters long',
     value: 4,
   },
   required: 'Username is required',
@@ -49,10 +59,10 @@ const Register = () => {
     handleSubmit,
     register,
   } = useForm({ mode: 'onSubmit' });
-  const onSubmit = data => onRegister(data, setRegisterResponse);
-
   const [registerResponse, setRegisterResponse] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+
+  const onSubmit = data => onRegister(data, setRegisterResponse);
 
   const toggleShowPassword = useCallback(
     () => setShowPassword(!showPassword),
