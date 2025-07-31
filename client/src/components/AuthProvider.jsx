@@ -22,8 +22,19 @@ const AuthProvider = ({ children }) => {
         username,
       })
       .then(res => {
-        setLoggedIn(!res.data.loginError);
+        setLoggedIn(res.status <= 400);
         setLoginResponse(res.data);
+      }).catch(error => {
+        setLoggedIn(false);
+        if (error.response && error.response.data) {
+          setLoginResponse({
+            ...error.response.data,
+          });
+        } else {
+          setLoginResponse({
+            loginMsg: 'Network error. Please try again.',
+          });
+        }
       });
 
   const onLogout = () =>

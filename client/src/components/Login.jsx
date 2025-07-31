@@ -26,16 +26,16 @@ const usernameValidation = {
 };
 
 const Login = () => {
-  const { onLogin } = useContext(AuthContext);
+  const { loggedIn, onLogin } = useContext(AuthContext);
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
     register,
   } = useForm({ mode: 'onSubmit' });
-  const onSubmit = data => onLogin(data, setLoginResponse);
-
   const [loginResponse, setLoginResponse] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+
+  const onSubmit = data => onLogin(data, setLoginResponse);
 
   const toggleShowPassword = useCallback(
     () => setShowPassword(!showPassword),
@@ -77,7 +77,7 @@ const Login = () => {
         </Box>
       </Stack>
       {loginResponse?.loginMsg && (
-        <Box color={loginResponse?.loginError ? 'red.500' : 'green.500'} mt='2'>
+        <Box color={loggedIn ? 'green.500' : 'red.500'} mt='2'>
           {loginResponse?.loginMsg}
         </Box>
       )}

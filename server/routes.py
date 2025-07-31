@@ -85,11 +85,7 @@ def register_post():
 
         return jsonify({ "registerMsg": "Account created" }), 201
 
-    except IntegrityError:
-        db.session.rollback()
-        return jsonify({ "registerMsg": "Username exists" }), 409
-
-    except Exception:
+    except (IntegrityError, Exception):
         db.session.rollback()
         return jsonify({
             "registerMsg": "Internal Server Error: couldn't create account"
@@ -97,22 +93,26 @@ def register_post():
 
 @app.post("/api/login")
 def login_post():
-    req_data = json.loads(request.data)
+    try:
+        req_data = json.loads(request.data)
+        username = req_data.get("username", "").strip()
+        password = req_data.get("password", "").strip()
 
-    user = User.query.filter_by(username=req_data["username"]).first()
-    if user and check_password_hash(user.password, req_data["password"]):
-        access_token = create_access_token(identity=user.username)
-        response = jsonify({
-            "loginError": False,
-            "loginMsg": "Successful login",
-        })
-        set_access_cookies(response, access_token)
-    else:
-        response = jsonify({
-            "loginError": True,
-            "loginMsg": "Invalid credentials",
-        })
-    return response
+        if not username or not password:
+            return jsonify({ "loginMsg": "Username and password are required" }), 400
+
+        user = User.query.filter_by(username=username).first()
+
+        if user and check_password_hash(user.password, password):
+            access_token = create_access_token(identity=user.username)
+            response = jsonify({ "loginMsg": "Successful login" })
+            set_access_cookies(response, access_token)
+            return response, 200
+        
+        return jsonify({ "loginMsg": "Invalid credentials" }), 401
+
+    except Exception:
+        return jsonify({ "loginMsg": "Internal Server Error: couldn't login" }), 500
 
 @app.get("/api/auth")
 @jwt_required()
