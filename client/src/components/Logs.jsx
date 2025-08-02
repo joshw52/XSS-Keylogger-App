@@ -25,7 +25,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
-import { filterLogs, getHosts, processLogs, parseKeystrokes, searchKeystrokes } from '../helpers';
+import { filterLogs, getHosts, processLogs, searchKeystrokes } from '../helpers';
 
 import LogModal from './LogModal';
 

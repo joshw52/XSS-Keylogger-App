@@ -2,6 +2,8 @@ import React from 'react';
 import moment from 'moment-timezone';
 import { uniq } from 'lodash';
 
+import { Code } from '@chakra-ui/react';
+
 export const delayedClosePopover = setOpen => {
   setOpen(true);
   setTimeout(() => {
