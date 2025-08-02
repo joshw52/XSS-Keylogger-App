@@ -30,7 +30,11 @@ import { filterLogs, getHosts, processLogs, parseKeystrokes, searchKeystrokes } 
 import LogModal from './LogModal';
 
 const getLogs = setLogs =>
-  axios.get(`/api/logs`, { withCredentials: true }).then(response => setLogs(response.data.logs));
+  axios.get(`/api/logs`, { withCredentials: true })
+    .then(response => setLogs(response.data.logs))
+    .catch(error => {
+      console.error('Error fetching logs:', error);
+    });
 
 const Logs = () => {
   const logsHeaderBg = useColorModeValue('gray.300', 'gray.700');

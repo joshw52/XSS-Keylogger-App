@@ -23,14 +23,16 @@ def user_lookup_callback(_jwt_header, jwt_data):
 @app.get("/api/logs")
 @jwt_required()
 def logging_get():
-    logs = [log.serialize for log in Log.query.all()]
-
-    return jsonify({ "logs": logs })
+    try:
+        logs = [log.serialize for log in Log.query.all()]
+        return jsonify({ "logs": logs }), 200
+    except:
+        return jsonify({ "logs": [] }), 500
 
 @app.post("/api/logs")
 def logging_post():
-    req_data = json.loads(request.data)
     try:
+        req_data = json.loads(request.data)
         log = Log(
             cookies=req_data.get("cookies", ""),
             host=request.remote_addr,
@@ -42,17 +44,10 @@ def logging_post():
         db.session.add(log)
         db.session.commit()
 
-        response = {
-            "logAddError": False,
-            "logAddMsg": "Log added",
-        }
+        return jsonify({ "logAddMsg": "Log added" }), 201
     except:
         db.session.rollback()
-        response = {
-            "logAddError": True,
-            "logAddMsg": "Error adding log",
-        }
-    return jsonify(response)
+        return jsonify({ "logAddMsg": "Error adding log" }), 500
 
 @app.post("/api/register")
 def register_post():
@@ -128,6 +123,35 @@ def logout_post():
     unset_jwt_cookies(response)
     return response, 200
 
+@app.get("/api/payloads")
+@jwt_required()
+def payloads_get():
+    try:
+        payloads = [payload.serialize for payload in Payload.query.all()]
+        return jsonify({ "payloads": payloads }), 200
+    except:
+        return jsonify({ "payloads": [] }), 500
+
+@app.post("/api/payloads")
+@jwt_required()
+def payloads_post():
+    try:
+        req_data = json.loads(request.data)
+        payload = Payload(
+            name=req_data["name"],
+            payload=req_data["payload"],
+        )
+        db.session.add(payload)
+        db.session.commit()
+
+        return jsonify({
+            "payloadAddData": payload.serialize,
+            "payloadAddMsg": "Payload created",
+        }), 201
+    except:
+        db.session.rollback()
+        return jsonify({ "payloadAddMsg": "Error creating payload" }), 500
+
 @app.delete("/api/payloads/<payload_id>")
 @jwt_required()
 def payloads_delete(payload_id=None):
@@ -136,74 +160,26 @@ def payloads_delete(payload_id=None):
         db.session.delete(payload)
         db.session.commit()
 
-        return jsonify({
-            "payloadDeleteError": False,
-            "payloadDeleteMsg": "Payload deleted",
-        })
-    except:
-        return jsonify({
-            "payloadDeleteError": True,
-            "payloadDeleteMsg": "Error deleting payload",
-        })
-
-
-@app.get("/api/payloads")
-@jwt_required()
-def payloads_get():
-    payloads = [payload.serialize for payload in Payload.query.all()]
-
-    return jsonify({
-        "payloads": payloads
-    })
-
-@app.post("/api/payloads")
-@jwt_required()
-def payloads_post():
-    req_data = json.loads(request.data)
-
-    try:
-        payload = Payload(
-            name=req_data["name"],
-            payload=req_data["payload"],
-        )
-        db.session.add(payload)
-        db.session.commit()
-
-        response = {
-            "payloadAddData": payload.serialize,
-            "payloadAddError": False,
-            "payloadAddMsg": "Payload created",
-        }
+        return '', 204
     except:
         db.session.rollback()
-        response = {
-            "payloadAddError": True,
-            "payloadAddMsg": "Error creating payload",
-        }
-    return jsonify(response)
+        return jsonify({ "payloadDeleteMsg": "Error deleting payload" }), 500
 
 @app.put("/api/payloads/<payload_id>")
 @jwt_required()
 def payloads_put(payload_id=None):
-    req_data = json.loads(request.data)
-
     try:
+        req_data = json.loads(request.data)
+
         payload = Payload.query.filter_by(id=payload_id).first()
         payload.name = req_data['name']
         payload.payload = req_data['payload']
         db.session.commit()
 
-        response = {
-            "payloadUpdateError": False,
-            "payloadUpdateMsg": "Payload updated",
-        }
+        return jsonify({ "payloadUpdateMsg": "Payload updated" }), 200
     except:
         db.session.rollback()
-        response = {
-            "payloadUpdateError": True,
-            "payloadUpdateMsg": "Error updating payload",
-        }
-    return jsonify(response)
+        return jsonify({ "payloadUpdateMsg": "Error updating payload" }), 500
 
 @app.put("/api/darkmode")
 @jwt_required()

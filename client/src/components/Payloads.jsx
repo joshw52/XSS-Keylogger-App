@@ -29,15 +29,22 @@ import PayloadInfo from './PayloadInfo';
 import SavePayload from './SavePayload';
 
 const getPayloads = (setPayloads, setCurrentPayload) =>
-  axios.get('/api/payloads', { withCredentials: true }).then(response => {
-    setPayloads(response.data.payloads);
-    if (response?.data?.payloads?.length > 0) setCurrentPayload(response.data.payloads[0]);
-  });
+  axios.get('/api/payloads', { withCredentials: true })
+    .then(response => {
+      setPayloads(response.data.payloads);
+      if (response?.data?.payloads?.length > 0) setCurrentPayload(response.data.payloads[0]);
+    })
+    .catch(error => {
+      console.error('Error fetching payloads:', error);
+    });
 
 const savePayload = (payloadId, payloadData, fetchPayloads) =>
   axios
     .put(`/api/payloads/${payloadId}`, payloadData, { withCredentials: true })
-    .then(() => fetchPayloads());
+    .then(() => fetchPayloads())
+    .catch(error => {
+      console.error('Error saving payload:', error);
+    });
 
 const Payload = () => {
   const { colorMode } = useColorMode();
@@ -107,7 +114,7 @@ const Payload = () => {
             <FormLabel>Select a Payload to Edit</FormLabel>
             <Select
               bg={optionsInputBg}
-              onChange={e =>
+              onChange={e => 
                 setCurrentPayload(payloads.find(p => Number(p.id) === Number(e.target.value)))
               }
               placeholder='- Select a Payload -'

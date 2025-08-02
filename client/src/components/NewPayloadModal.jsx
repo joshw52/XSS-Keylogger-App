@@ -16,10 +16,14 @@ import {
 } from '@chakra-ui/react';
 
 const createNewPayload = (payloadData, fetchPayloads, setCurrentPayload) =>
-  axios.post(`/api/payloads`, payloadData, { withCredentials: true }).then(response => {
-    fetchPayloads();
-    setCurrentPayload(response.data['payloadAddData']);
-  });
+  axios.post(`/api/payloads`, payloadData, { withCredentials: true })
+    .then(response => {
+      fetchPayloads();
+      setCurrentPayload(response.data['payloadAddData']);
+    })
+    .catch(error => {
+      console.error('Error creating new payload:', error);
+    });
 
 const payloadNameValidation = {
   required: 'Name is required for new payload',

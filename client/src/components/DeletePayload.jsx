@@ -16,11 +16,14 @@ import {
 } from '@chakra-ui/react';
 
 const deletePayload = (payloadId, setCurrentPayload, fetchPayloads) =>
-  axios.delete(`/api/payloads/${payloadId}`, { withCredentials: true }).then(response => {
-    setCurrentPayload(null);
-    fetchPayloads();
-    return response.data;
-  });
+  axios.delete(`/api/payloads/${payloadId}`, { withCredentials: true })
+    .then(() => {
+      setCurrentPayload(null);
+      fetchPayloads();
+    })
+    .catch(error => {
+      console.error('Error deleting payload:', error);
+    });
 
 const DeletePayload = ({ currentPayload, fetchPayloads, setCurrentPayload }) => {
   const [open, setOpen] = useState(false);

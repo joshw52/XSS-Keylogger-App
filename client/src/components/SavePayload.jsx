@@ -13,7 +13,7 @@ import {
 
 import { delayedClosePopover } from '../helpers';
 
-const CopyPayload = ({ updatePayload }) => {
+const SavePayload = ({ updatePayload }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -38,4 +38,4 @@ const CopyPayload = ({ updatePayload }) => {
   );
 };
 
-export default CopyPayload;
+export default SavePayload;
