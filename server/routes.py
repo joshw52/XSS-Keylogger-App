@@ -81,7 +81,13 @@ def register_post():
 
         return jsonify({ "registerMsg": "Account created" }), 201
 
-    except (IntegrityError, Exception) as e:
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify({
+            "registerMsg": "Username already exists"
+        }), 409
+
+    except Exception:
         logging.exception("Registration failed")
         db.session.rollback()
         return jsonify({
