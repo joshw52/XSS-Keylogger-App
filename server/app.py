@@ -1,4 +1,5 @@
 import logging
+import os
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
@@ -20,7 +21,7 @@ def create_app():
     app.config['JWT_ACCESS_COOKIE_PATH'] = '/api'
     app.config['JWT_COOKIE_CSRF_PROTECT'] = False
     app.config['JWT_CSRF_IN_COOKIES'] = False
-    app.config['JWT_SECRET_KEY'] = '_5#y2L"F4Q8z\n\xec]/'
+    app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY', '_5#y2L"F4Q8z\n\xec]/')
     app.config['JWT_TOKEN_LOCATION'] = ['headers', 'cookies']
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///db.sqlite3"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
