@@ -1,4 +1,5 @@
 import json
+import logging
 import jwt
 from flask import jsonify, request
 from flask_bcrypt import check_password_hash
@@ -72,7 +73,7 @@ def register_post():
             }), 400
 
         created_user = User(
-            password=bcrypt.generate_password_hash(password),
+            password=bcrypt.generate_password_hash(password).decode('utf-8'),
             username=username,
         )
         db.session.add(created_user)
@@ -80,7 +81,8 @@ def register_post():
 
         return jsonify({ "registerMsg": "Account created" }), 201
 
-    except (IntegrityError, Exception):
+    except (IntegrityError, Exception) as e:
+        logging.exception("Registration failed")
         db.session.rollback()
         return jsonify({
             "registerMsg": "Internal Server Error: couldn't create account"
